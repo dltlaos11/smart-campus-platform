@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react';
+import React, { useEffect, useState } from 'react';
 import { BrowserRouter, Routes, Route } from 'react-router-dom';
 import { FiSettings } from 'react-icons/fi';
 import { TooltipComponent } from '@syncfusion/ej2-react-popups';
@@ -7,11 +7,15 @@ import { Navbar, Footer, Sidebar, ThemeSettings,} from './components';
 import { Ecommerce, Orders, Calendar, Employees, Stacked, Pyramid, Customers, Kanban, Area, Bar, Pie, Financial, ColorPicker, ColorMapping, Editor, Line } from './pages';
 import './App.css';
 
+import { useStateContext } from './contexts/ContextProvider';
+
 const App = () => {
-  const activeMenu = true;
+  const { activeMenu } = useStateContext();
+  // const activeMenu = true;
+  const [isLoggedIn, setIsLoggedIn] =useState(false);
 
   return (
-    <div>
+    <div>  
       <BrowserRouter>
         <div className="flex relative dark:bg-main-dark-bg">
           <div className="fixed right-4 bottom-4" style={{ zIndex: '1000' }}>
@@ -22,7 +26,7 @@ const App = () => {
               </button>   
             </TooltipComponent>
           </div>
-          {activeMenu ? (
+          {activeMenu ? (  
             <div className="w-72 fixed sidebar dark:bg-secondary-dark-bg bg-white">
               <Sidebar />
             </div>
