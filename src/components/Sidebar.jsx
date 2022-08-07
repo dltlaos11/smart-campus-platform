@@ -53,7 +53,7 @@ const Sidebar = () => {
                 <p className="text-gray-400 m-3 mt-4 uppercase">{item.title}</p>
                 {item.links.map((link) => (
                   <NavLink
-                    to={`/${link.name}`}
+                    to={`/${link.link}`}
                     key={link.name}
                     onClick={handleCloseSideBar}
                     className={({ isActive }) =>

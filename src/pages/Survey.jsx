@@ -13,13 +13,13 @@ import {
 import { Header } from "../components";
 import { EditorData } from "../data/dummy";
 
-const Editor = () => {
+const Survey = () => {
   const fileInput = document.getElementById("fileUpload");
 
-  fileInput.onchange = () => {
-    const selectedFile = [...fileInput.files];
-    console.log(selectedFile);
-  };
+  // fileInput.onchange = () => {
+  //   const selectedFile = [...fileInput.files];
+  //   console.log(selectedFile);
+  // };
 
   return (
     <div className="m-2 md:m-10 mt-24 p-2 md:p-10 bg-white rounded-3xl">
@@ -43,4 +43,4 @@ const Editor = () => {
     </div>
   );
 };
-export default Editor;
+export default Survey;
