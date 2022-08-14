@@ -18,16 +18,6 @@ const Dashboard = () => {
     { a: "133", c: "edd12221 edd12221", d: 2, key: "4" },
     { a: "123", b: "xxxxxxxx xxxxxxxx", d: 3, key: "1" },
     { a: "cdd", b: "edd12221 edd12221", d: 3, key: "2" },
-    { a: "133", c: "edd12221 edd12221", d: 2, key: "3" },
-    { a: "133", c: "edd12221 edd12221", d: 2, key: "4" },
-    { a: "123", b: "xxxxxxxx xxxxxxxx", d: 3, key: "1" },
-    { a: "cdd", b: "edd12221 edd12221", d: 3, key: "2" },
-    { a: "133", c: "edd12221 edd12221", d: 2, key: "3" },
-    { a: "133", c: "edd12221 edd12221", d: 2, key: "4" },
-    { a: "123", b: "xxxxxxxx xxxxxxxx", d: 3, key: "1" },
-    { a: "cdd", b: "edd12221 edd12221", d: 3, key: "2" },
-    { a: "133", c: "edd12221 edd12221", d: 2, key: "3" },
-    { a: "133", c: "edd12221 edd12221", d: 2, key: "4" },
   ];
 
   return (
@@ -38,10 +28,10 @@ const Dashboard = () => {
       md:m-10 p-2 md:p-10 bg-white rounded-3xl w-1/2 
       */}
 
-      <div className="flex-wrap basis-auto grow shrink bg-red-200">
+      <div className="flex-wrap basis-auto grow shrink bg-white rounded-3xl">
         <Header category="Dashboard" title="Home" />
         <div
-          className="flex flex-wrap gap-7 p-2 bg-gray-600
+          className="flex flex-wrap gap-7 p-2 
         "
         >
           <div className="min-h-150 basis-60 shrink grow">

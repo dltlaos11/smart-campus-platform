@@ -548,11 +548,11 @@ export const links = [
         name: "설문",
         icon: <FiEdit />,
       },
-      {
-        link: "chatbot",
-        name: "챗봇",
-        icon: <AiFillRobot />,
-      },
+      // {
+      //   link: "chatbot",
+      //   name: "챗봇",
+      //   icon: <AiFillRobot />,
+      // },
       {
         link: "admin",
         name: "관리자 관리",

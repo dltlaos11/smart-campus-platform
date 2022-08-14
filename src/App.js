@@ -54,7 +54,7 @@ const App = () => {
                 {/* Pages */}
                 <Route path="/notice" element={<Notice />} />
                 <Route path="/survey" element={<Survey />} />
-                <Route path="/chatbot" element={<Chatbot />} />
+                {/* <Route path="/chatbot" element={<Chatbot />} /> */}
                 <Route path="/admin" element={<Admin />} />
                 <Route path="/map" element={<Map />} />
 
