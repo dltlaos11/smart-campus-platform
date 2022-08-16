@@ -28,46 +28,44 @@ const Dashboard = () => {
       md:m-10 p-2 md:p-10 bg-white rounded-3xl w-1/2 
       */}
 
-      <div className="flex-wrap basis-auto grow shrink bg-white rounded-3xl">
-        <Header category="Dashboard" title="Home" />
-        <div
-          className="flex flex-wrap gap-7 p-2 
-        "
-        >
-          <div className="min-h-150 basis-60 shrink grow">
-            <Table
-              columns={columns}
-              dataSource={data}
-              scroll={{ y: 300, x: true }}
-              size="small"
-            />
-          </div>
-          <div className="min-h-150 basis-60 shrink grow">
-            <Table
-              columns={columns}
-              dataSource={data}
-              scroll={{ y: 300, x: true }}
-              size="small"
-            />
-          </div>
-          <div className="min-h-150 basis-60 shrink grow">
-            <Table
-              columns={columns}
-              dataSource={data}
-              scroll={{ y: 300, x: true }}
-              size="small"
-            />
-          </div>
-          <div className="min-h-150 basis-60 shrink grow">
-            <Table
-              columns={columns}
-              dataSource={data}
-              scroll={{ y: 300, x: true }}
-              size="small"
-            />
+        <div className="m-2 md:m-10 mt-24 p-2 md:p-10 bg-white rounded-3xl bg-slate-600">
+          <Header category="Dashboard" title="Home" />
+
+          <div className="grid grid-cols-2  gap-4 p-2">
+            <div className=" basis-40 shrink grow">
+              <Table
+                columns={columns}
+                dataSource={data}
+                scroll={{ y: true, x: true }}
+                size="small"
+              />
+            </div>
+            <div className=" basis-40 shrink grow">
+              <Table
+                columns={columns}
+                dataSource={data}
+                scroll={{ y: true, x: true }}
+                size="small"
+              />
+            </div>
+            <div className=" basis-40 shrink grow">
+              <Table
+                columns={columns}
+                dataSource={data}
+                scroll={{ y: true, x: true }}
+                size="small"
+              />
+            </div>
+            <div className=" basis-40 shrink grow">
+              <Table
+                columns={columns}
+                dataSource={data}
+                scroll={{ y: true, x: true }}
+                size="small"
+              />
+            </div>
           </div>
         </div>
-      </div>
     </>
   );
 };

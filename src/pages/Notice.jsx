@@ -1,44 +1,270 @@
-import React from "react";
+import React, { useRef, useState } from "react";
 import { Header } from "../components";
-import { Table } from "antd";
+import { Button, Input, Space, Table } from "antd";
+import { SearchOutlined } from "@ant-design/icons";
+import Highlighter from "react-highlight-words";
+import { Link, useNavigate } from "react-router-dom";
+import NoticeDetail from "./NoticeDetail";
 
 const Notice = () => {
-  const columns = [
-    { title: "titl4s1", dataIndex: "a", key: "a", width: 100 },
-    { title: "title2", dataIndex: "b", key: "b", width: 100 },
-    { title: "title3", dataIndex: "c", key: "c", width: 100 },
-    { title: "title4", dataIndex: "b", key: "d", width: 100 },
-    { title: "title5", dataIndex: "b", key: "e", width: 100 },
-  ];
+  const [searchText, setSearchText] = useState("");
+  const [searchedColumn, setSearchedColumn] = useState("");
+  const searchInput = useRef(null);
 
   const data = [
-    { a: "123", b: "xxxxxxxx xxxxxxxx", d: 3, key: "1" },
-    { a: "cdd", b: "edd12221 edd12221", d: 3, key: "2" },
-    { a: "133", c: "edd12221 edd12221", d: 2, key: "3" },
-    { a: "133", c: "edd12221 edd12221", d: 2, key: "4" },
-    { a: "123", b: "xxxxxxxx xxxxxxxx", d: 3, key: "1" },
-    { a: "cdd", b: "edd12221 edd12221", d: 3, key: "2" },
-    { a: "133", c: "edd12221 edd12221", d: 2, key: "3" },
-    { a: "133", c: "edd12221 edd12221", d: 2, key: "4" },
-    { a: "123", b: "xxxxxxxx xxxxxxxx", d: 3, key: "1" },
-    { a: "cdd", b: "edd12221 edd12221", d: 3, key: "2" },
-    { a: "133", c: "edd12221 edd12221", d: 2, key: "3" },
-    { a: "133", c: "edd12221 edd12221", d: 2, key: "4" },
-    { a: "123", b: "xxxxxxxx xxxxxxxx", d: 3, key: "1" },
-    { a: "cdd", b: "edd12221 edd12221", d: 3, key: "2" },
-    { a: "133", c: "edd12221 edd12221", d: 2, key: "3" },
-    { a: "133", c: "edd12221 edd12221", d: 2, key: "4" },
+    {
+      key: "1",
+      index: "1",
+      name: "김석삼",
+      title: "안녕하세요 이버",
+      date: "2022-12-31",
+    },
+    {
+      key: "2",
+      index: "2",
+      name: "감사머",
+      title: "2번 글입니다.세요 이버",
+      date: "2022-12-30",
+    },
+    {
+      key: "3",
+      index: "3",
+      name: "오이지",
+      title: "3번 글임. 세요 이버버이니니다",
+      date: "2022-12-12",
+    },
+    {
+      key: "4",
+      index: "4",
+      name: "안영사",
+      title: "4번 글입니다.세요 이버",
+      date: "2022-12-15",
+    },
+    {
+      key: "5",
+      index: "1",
+      name: "김석삼",
+      title: "안녕하세요 이버",
+      date: "2022-12-31",
+    },
+    {
+      key: "6",
+      index: "1",
+      name: "김석삼",
+      title: "안녕하세요 이버",
+      date: "2022-12-31",
+    },
+    {
+      key: "7",
+      index: "1",
+      name: "김석삼",
+      title: "안녕하세요 이버",
+      date: "2022-12-31",
+    },
+    {
+      key: "8",
+      index: "1",
+      name: "김석삼",
+      title: "안녕하세요 이버",
+      date: "2022-12-31",
+    },
+    {
+      key: "9",
+      index: "1",
+      name: "김석삼",
+      title: "안녕하세요 이버",
+      date: "2022-12-31",
+    },
+    {
+      key: "1",
+      index: "1",
+      name: "김석삼",
+      title: "안녕하세요 이버",
+      date: "2022-12-31",
+    },
+    {
+      key: "10",
+      index: "1",
+      name: "김석삼",
+      title: "안녕하세요 이버",
+      date: "2022-12-31",
+    },
+    {
+      key: "11",
+      index: "1",
+      name: "김석삼",
+      title: "안녕하세요 이버",
+      date: "2022-12-31",
+    },
+    {
+      key: "12",
+      index: "1",
+      name: "김석삼",
+      title: "안녕하세요 이버",
+      date: "2022-12-31",
+    },
   ];
+
+  const handleSearch = (selectedKeys, confirm, dataIndex) => {
+    confirm();
+    setSearchText(selectedKeys[0]);
+    setSearchedColumn(dataIndex);
+  };
+
+  const handleReset = (clearFilters) => {
+    clearFilters();
+    setSearchText("");
+  };
+
+  const getColumnSearchProps = (dataIndex) => ({
+    filterDropdown: ({
+      setSelectedKeys,
+      selectedKeys,
+      confirm,
+      clearFilters,
+    }) => (
+      <div
+        style={{
+          padding: 8,
+        }}
+      >
+        <Input
+          ref={searchInput}
+          placeholder={`Search ${dataIndex}`}
+          value={selectedKeys[0]}
+          onChange={(e) =>
+            setSelectedKeys(e.target.value ? [e.target.value] : [])
+          }
+          onPressEnter={() => handleSearch(selectedKeys, confirm, dataIndex)}
+          style={{
+            marginBottom: 8,
+            display: "block",
+          }}
+        />
+        <Space>
+          <Button
+            type="primary"
+            onClick={() => handleSearch(selectedKeys, confirm, dataIndex)}
+            icon={<SearchOutlined />}
+            size="small"
+            style={{
+              width: 90,
+            }}
+          >
+            Search
+          </Button>
+          <Button
+            onClick={() => clearFilters && handleReset(clearFilters)}
+            size="small"
+            style={{
+              width: 90,
+            }}
+          >
+            Reset
+          </Button>
+          <Button
+            type="link"
+            size="small"
+            onClick={() => {
+              confirm({
+                closeDropdown: false,
+              });
+              setSearchText(selectedKeys[0]);
+              setSearchedColumn(dataIndex);
+            }}
+          >
+            Filter
+          </Button>
+        </Space>
+      </div>
+    ),
+    filterIcon: (filtered) => (
+      <SearchOutlined
+        style={{
+          color: filtered ? "#1890ff" : undefined,
+        }}
+      />
+    ),
+    onFilter: (value, record) =>
+      record[dataIndex].toString().toLowerCase().includes(value.toLowerCase()),
+    onFilterDropdownVisibleChange: (visible) => {
+      if (visible) {
+        setTimeout(() => searchInput.current?.select(), 100);
+      }
+    },
+    render: (text) =>
+      searchedColumn === dataIndex ? (
+        <Highlighter
+          highlightStyle={{
+            backgroundColor: "#ffc069",
+            padding: 0,
+          }}
+          searchWords={[searchText]}
+          autoEscape
+          textToHighlight={text ? text.toString() : ""}
+        />
+      ) : (
+        text
+      ),
+  });
+  const columns = [
+    {
+      title: "Index",
+      dataIndex: "index",
+      key: "index",
+      width: "10%",
+    },
+    {
+      title: "작성자",
+      dataIndex: "name",
+      key: "name",
+      width: "20%",
+      ...getColumnSearchProps("name"),
+    },
+    {
+      title: "제목",
+      dataIndex: "title",
+      key: "title",
+      width: "30%",
+      ...getColumnSearchProps("title"),
+    },
+    {
+      title: "날짜",
+      dataIndex: "date",
+      key: "date",
+      ...getColumnSearchProps("date"),
+      sorter: (a, b) => a.date.length - b.date.length,
+      sortDirections: ["descend", "ascend"],
+    },
+  ];
+  const navigate = useNavigate();
+
   return (
     <>
       <div className="m-2 md:m-10 mt-24 p-2 md:p-10 bg-white rounded-3xl">
-        <Header category="Page" title="공지사항" />
+        <Header category="Pages" title="공지사항" />
         <Table
           columns={columns}
           dataSource={data}
           scroll={{ y: 300, x: true }}
-          size="small"
+          onRow={(record, recordIndex) => ({
+            // onClick: event => { console.log(event.target, event.target.className, record, recordIndex) }
+            onClick: (event) => {
+              navigate(`${record.key}`);
+              console.log(record.key);
+            },
+          })}
         />
+        <div className="h-24 flex justify-end w-full">
+          <button
+            onClick={() => {
+              navigate("/NoticeWrite");
+            }}
+            className="bg-red-800 shadow-lg my-auto text-center rounded-2xl text-white p-3 w-32 mr-7"
+          >
+            글 등록
+          </button>
+        </div>
       </div>
     </>
   );

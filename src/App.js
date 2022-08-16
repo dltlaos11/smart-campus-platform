@@ -8,6 +8,8 @@ import { Dashboard, Notice, Admin, Chatbot, Map, Survey, Line } from "./pages";
 import "./App.css";
 
 import { useStateContext } from "./contexts/ContextProvider";
+import NoticeDetail from "./pages/NoticeDetail";
+import NoticeWrite from "./pages/NoticeWrite";
 
 const App = () => {
   const { activeMenu } = useStateContext();
@@ -53,6 +55,8 @@ const App = () => {
 
                 {/* Pages */}
                 <Route path="/notice" element={<Notice />} />
+                <Route path="/NoticeWrite" element={<NoticeWrite />} />
+                <Route path="/notice/:id" element={<NoticeDetail />} />
                 <Route path="/survey" element={<Survey />} />
                 {/* <Route path="/chatbot" element={<Chatbot />} /> */}
                 <Route path="/admin" element={<Admin />} />
