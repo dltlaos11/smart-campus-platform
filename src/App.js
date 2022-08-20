@@ -4,7 +4,17 @@ import { FiSettings } from "react-icons/fi";
 import { TooltipComponent } from "@syncfusion/ej2-react-popups";
 import "antd/dist/antd.css";
 import { Navbar, Footer, Sidebar, ThemeSettings } from "./components";
-import { Dashboard, Notice, Admin, Chatbot, Map, Survey, Line } from "./pages";
+import {
+  Dashboard,
+  Notice,
+  Admin,
+  Chatbot,
+  Map,
+  Survey,
+  Line,
+  SurveyWrite,
+  SurveyDetail,
+} from "./pages";
 import "./App.css";
 
 import { useStateContext } from "./contexts/ContextProvider";
@@ -55,9 +65,11 @@ const App = () => {
 
                 {/* Pages */}
                 <Route path="/notice" element={<Notice />} />
-                <Route path="/NoticeWrite" element={<NoticeWrite />} />
-                <Route path="/notice/:id" element={<NoticeDetail />} />
+                <Route path="/noticeWrite" element={<NoticeWrite />} />
+                <Route path="/noticeDetail/:id" element={<NoticeDetail />} />
                 <Route path="/survey" element={<Survey />} />
+                <Route path="/surveyWrite" element={<SurveyWrite />} />
+                <Route path="/surveyDetail/:id" element={<SurveyDetail />} />
                 {/* <Route path="/chatbot" element={<Chatbot />} /> */}
                 <Route path="/admin" element={<Admin />} />
                 <Route path="/map" element={<Map />} />

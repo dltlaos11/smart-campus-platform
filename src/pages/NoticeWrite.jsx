@@ -113,36 +113,9 @@ const NoticeWrite = () => {
             <input type="file" multiple></input>
           </form>
         </div>
-        {/* <div className=" my-3">
-          <input
-            className=" mr-2"
-            type="checkbox"
-            onClick={() => {
-              setContainProgram(!containProgram);
-            }}
-          />{" "}
-          프로그램{" "}
-          <button
-            className="bg-red-800 rounded py-1 px-3 mx-5 text-white"
-            onClick={openPopup}
-          >
-            프로그램목록
-          </button>
-        </div>
-        <div className="py-1">선택할 프로그램 이름이 들어갈 자리</div> */}
+
         <div className=" my-2 flex justify-end">
-          <button
-            className="w-28 p-2 text-white bg-red-800 shadow-lg rounded"
-            // onClick={() => {
-            //   console.log(
-            //     "제목, 중요도, 프로그램 유무, 본문: ",
-            //     title,
-            //     priority,
-            //     containProgram,
-            //     content
-            //   );
-            // }}
-          >
+          <button className="w-28 p-2 text-white bg-red-800 shadow-lg rounded">
             등록
           </button>
         </div>

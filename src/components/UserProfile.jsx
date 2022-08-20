@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState, useEffect } from "react";
 import { MdOutlineCancel } from "react-icons/md";
 
 import { Button } from ".";
@@ -6,8 +6,64 @@ import { userProfileData } from "../data/dummy";
 import { useStateContext } from "../contexts/ContextProvider";
 import avatar from "../data/avatar.png";
 
+import { Avatar, Divider, List, Skeleton } from "antd";
+import InfiniteScroll from "react-infinite-scroll-component";
+
 const UserProfile = () => {
   const { currentColor } = useStateContext();
+
+  const data = [
+    {
+      title: "Ant Design Title 1",
+    },
+    {
+      title: "Ant Design Title 2",
+    },
+    {
+      title: "Ant Design Title 3",
+    },
+    {
+      title: "Ant Design Title 4",
+    },
+    {
+      title: "Ant Design Title 5",
+    },
+    {
+      title: "Ant Design Title 6",
+    },
+    {
+      title: "Ant Design Title 7",
+    },
+    {
+      title: "Ant Design Title 8",
+    },
+  ];
+
+  const [loading, setLoading] = useState(false);
+  const [data1, setData] = useState([]);
+
+  const loadMoreData = () => {
+    if (loading) {
+      return;
+    }
+
+    setLoading(true);
+    fetch(
+      "https://randomuser.me/api/?results=10&inc=name,gender,email,nat,picture&noinfo"
+    )
+      .then((res) => res.json())
+      .then((body) => {
+        setData([...data, ...body.results]);
+        setLoading(false);
+      })
+      .catch(() => {
+        setLoading(false);
+      });
+  };
+
+  useEffect(() => {
+    loadMoreData();
+  }, []);
 
   return (
     <div className="nav-item absolute right-1 top-16 bg-white dark:bg-[#42464D] p-8 rounded-lg w-96">
@@ -37,28 +93,44 @@ const UserProfile = () => {
         </div>
       </div>
       <div>
-        {userProfileData.map((item, index) => (
-          <div
-            key={index}
-            className="flex gap-5 border-b-1 border-color p-4 hover:bg-light-gray cursor-pointer  dark:hover:bg-[#42464D]"
+        <div
+          id="scrollableDiv"
+          style={{
+            height: 400,
+            overflow: "auto",
+            padding: "0 16px",
+            border: "1px solid rgba(140, 140, 140, 0.35)",
+          }}
+        >
+          <InfiniteScroll
+            dataLength={data.length}
+            loader={
+              <Skeleton
+                avatar
+                paragraph={{
+                  rows: 1,
+                }}
+                active
+              />
+            }
+            endMessage={<Divider plain>더 이상의 부서는 없어요 !🤐</Divider>}
+            scrollableTarget="scrollableDiv"
           >
-            <button
-              type="button"
-              style={{ color: item.iconColor, backgroundColor: item.iconBg }}
-              className=" text-xl rounded-lg p-3 hover:bg-light-gray"
-            >
-              {item.icon}
-            </button>
-
-            <div>
-              <p className="font-semibold dark:text-gray-200 ">{item.title}</p>
-              <p className="text-gray-500 text-sm dark:text-gray-400">
-                {" "}
-                {item.desc}{" "}
-              </p>
-            </div>
-          </div>
-        ))}
+            <List
+              // itemLayout="horizontal"
+              dataSource={data}
+              renderItem={(item) => (
+                <List.Item key={item.title}>
+                  <List.Item.Meta
+                    avatar={<Avatar src="https://joeschmoe.io/api/v1/random" />}
+                    title={<a href="https://ant.design">{item.title}</a>}
+                    description="Ant Design, a design language for background applications, is refined by Ant UED Team"
+                  />
+                </List.Item>
+              )}
+            />
+          </InfiniteScroll>
+        </div>
       </div>
       <div className="mt-5">
         <Button

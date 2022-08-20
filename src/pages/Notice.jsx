@@ -241,7 +241,7 @@ const Notice = () => {
 
   return (
     <>
-      <div className="m-2 md:m-10 mt-24 p-2 md:p-10 bg-white rounded-3xl">
+      <div className="m-2 md:m-10 mt-24 p-2 md:p-10 bg-white rounded-3xl ">
         <Header category="Pages" title="공지사항" />
         <Table
           columns={columns}
@@ -250,7 +250,7 @@ const Notice = () => {
           onRow={(record, recordIndex) => ({
             // onClick: event => { console.log(event.target, event.target.className, record, recordIndex) }
             onClick: (event) => {
-              navigate(`${record.key}`);
+              navigate(`/NoticeDetail/${record.key}`);
               console.log(record.key);
             },
           })}
