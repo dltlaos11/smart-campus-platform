@@ -1,14 +1,4 @@
 import React, { useState } from "react";
-import {
-  HtmlEditor,
-  Image,
-  Inject,
-  Link,
-  QuickToolbar,
-  RichTextEditorComponent,
-  Toolbar,
-  FileManager,
-} from "@syncfusion/ej2-react-richtexteditor";
 import { InboxOutlined, UploadOutlined } from "@ant-design/icons";
 import {
   Button,
@@ -24,54 +14,12 @@ import {
   Switch,
   Upload,
 } from "antd";
-const NoticeWrite = () => {
-  const modules = {
-    toolbar: [
-      [{ header: "1" }, { header: "2" }],
-      [{ size: [] }],
-      ["bold", "italic", "underline", "strike"],
-      [{ list: "ordered" }, { list: "bullet" }],
-      ["clean"],
-      ["link", "image"],
-    ],
-    clipboard: {
-      // toggle to add extra line breaks when pasting HTML:
-      matchVisual: false,
-    },
-  };
+import { CKEditor } from "@ckeditor/ckeditor5-react";
+import ClassicEditor from "@ckeditor/ckeditor5-build-classic";
 
-  const formats = [
-    "header",
-    "size",
-    "bold",
-    "italic",
-    "underline",
-    "strike",
-    "blockquote",
-    "list",
-    "image",
-  ];
+const NoticeWrite = () => {
   const [title, setTitle] = useState("");
   const [content, setContent] = useState("");
-  //const [priority, setPriorty] = useState(false);
-  const [containProgram, setContainProgram] = useState(false);
-  const openPopup = () => {
-    window.open(
-      "programpopup",
-      "new",
-      "toolbar=no, menubar=no, scrollbars=yes, resizable=no, width=700, height=700, left=0, top=0"
-    );
-  };
-
-  const normFile = (e) => {
-    console.log("Upload event:", e);
-
-    if (Array.isArray(e)) {
-      return e;
-    }
-
-    return e?.fileList;
-  };
 
   return (
     <div className="min-h-screen md:px-10 pt-40">
@@ -94,24 +42,47 @@ const NoticeWrite = () => {
         </div>
         <div className="text-xl font-bold mb-2">내용</div>
         <div className=" h-good">
-          <RichTextEditorComponent>
-            <Inject
-              services={[
-                HtmlEditor,
-                Toolbar,
-                Image,
-                Link,
-                QuickToolbar,
-                FileManager,
-              ]}
-            />
-          </RichTextEditorComponent>
+          <CKEditor
+            editor={ClassicEditor}
+            data="<p>Hello from CKEditor 5!</p>"
+            onReady={(editor) => {
+              // You can store the "editor" and use when it is needed.
+              console.log("Editor is ready to use!", editor);
+            }}
+            onChange={(event, editor) => {
+              const data = editor.getData();
+              console.log({ event, editor, data });
+              setContent({
+                ...content,
+                content: data,
+              });
+            }}
+            onBlur={(event, editor) => {
+              console.log("Blur.", editor);
+            }}
+            onFocus={(event, editor) => {
+              console.log("Focus.", editor);
+            }}
+          />
         </div>
+        {/* <div dangerouslySetInnerHTML={ {__html:codes}}></div> */}
         <div className="">
           {" "}
-          <form className="my-auto border-y border-gray-400 w-full py-1">
-            <input type="file" multiple></input>
-          </form>
+          <Upload.Dragger
+            action={"http://localhost:3001/NoticeWrite"}
+            multiple
+            listType="picture"
+            showUploadList={{ showRemoveIcon: true }}
+            accept=".png, .jpg, .doc, .hwp, .pdf"
+            beforeUpload={(file) => {
+              console.log({ file });
+              return false;
+            }}
+          >
+            Drag files here OR
+            <br />
+            <Button>Click Upload</Button>
+          </Upload.Dragger>
         </div>
 
         <div className=" my-2 flex justify-end">

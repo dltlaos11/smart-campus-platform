@@ -22,7 +22,7 @@ const Dashboard = () => {
     { a: "cdd", b: "edd12221 edd12221", d: 3, key: "2" },
   ];
   const data1 = Array.from({
-    length: 23,
+    length: 5, // 값 받으면 _ 부분 처리 가능할지도?
   }).map((_, i) => ({
     href: "https://ant.design",
     title: `ant design part ${i}`,
@@ -82,6 +82,14 @@ const Dashboard = () => {
                   </List.Item>
                 )}
               />
+              <button
+                onClick={() => {
+                  // navigate("/NoticeWrite");
+                }}
+                className="bg-red-800 shadow-lg mt-8 text-center rounded-2xl text-white p-3 w-32 ml-[1150px]"
+              >
+                글 등록
+              </button>
             </div>
           </div>
           <div className="grid grid-cols-2  gap-4 p-2">

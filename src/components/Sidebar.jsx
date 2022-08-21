@@ -35,7 +35,7 @@ const Sidebar = () => {
             >
               <SiShopware /> <span>스마트 캠퍼스</span>
             </Link>
-            <TooltipComponent content="Menu" position="BottomCenter">
+            {/* <TooltipComponent content="Menu" position="BottomCenter">
               <button
                 type="button"
                 onClick={() =>
@@ -45,7 +45,7 @@ const Sidebar = () => {
               >
                 <MdOutlineCancel />
               </button>
-            </TooltipComponent>
+            </TooltipComponent> "X" 아이콘*/}
           </div>
           <div className="mt-10">
             {links.map((item) => (

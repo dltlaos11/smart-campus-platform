@@ -558,11 +558,11 @@ export const links = [
         name: "관리자 관리",
         icon: <RiAdminFill />,
       },
-      {
-        link: "map",
-        name: "지도",
-        icon: <BsFillMapFill />,
-      },
+      // {
+      //   link: "map",
+      //   name: "지도",
+      //   icon: <BsFillMapFill />,
+      // },
     ],
   },
 ];
