@@ -1,12 +1,51 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { useStateContext } from "../contexts/ContextProvider";
 import App from "../App";
 
+import AuthService from "../api/auth.service";
+import NoticeService from "../api/notice.service";
+
 const Login = () => {
-  const [user_id, setId] = useState("");
-  const [password, setPw] = useState("");
+  const [user_id, setId] = useState("123456");
+  const [password, setPw] = useState("1q2w3e4r~!");
 
   const { isLoggedIn, setIsLoggedIn } = useStateContext();
+
+  const handleLogin = async (e) => {
+    e.preventDefault();
+    try {
+      await AuthService.login(user_id, password).then(
+        (res) => {
+          // window.location.reload();
+          const user = JSON.parse(localStorage.getItem("user"));
+
+          if (user && user.response.jwt_token) {
+            console.log("Fhrmdls");
+            setIsLoggedIn(true);
+          } else {
+            setIsLoggedIn(false);
+          }
+          console.log(res);
+        },
+        (err) => {
+          console.log(err);
+        }
+      );
+    } catch (err) {
+      console.log(err);
+    }
+  };
+
+  useEffect(() => {
+    NoticeService.getNoticeAllWeb().then(
+      (res) => {
+        console.log(res);
+      },
+      (error) => {
+        console.log(error);
+      }
+    );
+  }, []);
 
   return (
     <>
@@ -73,11 +112,7 @@ const Login = () => {
                             <button
                               className="bg-red-800  hover:font-extrabold hover:bg-red-900 hover:text-base text-white active:bg-red-900 text-sm font-bold uppercase px-6 py-3 rounded shadow hover:shadow-lg outline-none focus:outline-none mr-1 mb-1 w-full ease-linear transition-all duration-150"
                               type="button"
-                              onClick={() =>
-                                setIsLoggedIn(
-                                  (previsLoggedIn) => !previsLoggedIn
-                                )
-                              }
+                              onClick={handleLogin}
                             >
                               로그인
                             </button>

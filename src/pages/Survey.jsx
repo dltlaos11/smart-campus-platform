@@ -200,6 +200,7 @@ const Survey = () => {
         text
       ),
   });
+
   const columns = [
     {
       title: "Index",
@@ -230,6 +231,7 @@ const Survey = () => {
       sortDirections: ["descend", "ascend"],
     },
   ];
+
   const navigate = useNavigate();
 
   return (

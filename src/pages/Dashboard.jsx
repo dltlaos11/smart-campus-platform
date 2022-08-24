@@ -36,7 +36,7 @@ const Dashboard = () => {
   return (
     <>
       <div className="m-2 md:m-10 mt-24 p-2 md:p-10 bg-white rounded-3xl bg-slate-600">
-        <Header category="Dashboard" title="Home" />
+        <Header category="Dashboard" />
 
         <div className="grid grid-cols-1  gap-4 p-2">
           <div className="grid grid-cols-2  gap-4 p-2">
@@ -88,7 +88,7 @@ const Dashboard = () => {
                 }}
                 className="bg-red-800 shadow-lg mt-8 text-center rounded-2xl text-white p-3 w-32 ml-[1150px]"
               >
-                글 등록
+                부서 추가, modal 파일 완성 후
               </button>
             </div>
           </div>

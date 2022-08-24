@@ -9,61 +9,64 @@ import avatar from "../data/avatar.png";
 import { Avatar, Divider, List, Skeleton } from "antd";
 import InfiniteScroll from "react-infinite-scroll-component";
 
+import AuthService from "../api/auth.service";
+import GroupService from "../api/group.service";
+
 const UserProfile = () => {
   const { currentColor } = useStateContext();
-
-  const data = [
-    {
-      title: "Ant Design Title 1",
-    },
-    {
-      title: "Ant Design Title 2",
-    },
-    {
-      title: "Ant Design Title 3",
-    },
-    {
-      title: "Ant Design Title 4",
-    },
-    {
-      title: "Ant Design Title 5",
-    },
-    {
-      title: "Ant Design Title 6",
-    },
-    {
-      title: "Ant Design Title 7",
-    },
-    {
-      title: "Ant Design Title 8",
-    },
-  ];
-
-  const [loading, setLoading] = useState(false);
   const [data1, setData] = useState([]);
 
-  const loadMoreData = () => {
-    if (loading) {
-      return;
+  const [data, setData1] = useState([]);
+  // let data = [
+  //   {
+  //     title: "Ant Design Title 1",
+  //   },
+  // ];
+
+  const getuserprofile = async () => {
+    try {
+      await GroupService.getGroupAll().then(
+        (res) => {
+          console.log(res);
+          setData1(res.data.response);
+          console.log(data);
+        },
+        (error) => {
+          console.log(error);
+        }
+      );
+    } catch (err) {
+      console.log(err);
     }
-
-    setLoading(true);
-    fetch(
-      "https://randomuser.me/api/?results=10&inc=name,gender,email,nat,picture&noinfo"
-    )
-      .then((res) => res.json())
-      .then((body) => {
-        setData([...data, ...body.results]);
-        setLoading(false);
-      })
-      .catch(() => {
-        setLoading(false);
-      });
   };
-
   useEffect(() => {
-    loadMoreData();
+    getuserprofile();
   }, []);
+
+  // const [loading, setLoading] = useState(false);
+
+  // const loadMoreData = () => {
+  //   if (loading) {
+  //     return;
+  //   }
+
+  //   setLoading(true);
+  //   fetch(
+  //     "https://randomuser.me/api/?results=10&inc=name,gender,email,nat,picture&noinfo"
+  //   )
+  //     .then((res) => res.json())
+  //     .then((body) => {
+  //       setData([...data, ...body.results]);
+  //       setLoading(false);
+  //     })
+  //     .catch(() => {
+  //       setLoading(false);
+  //     });
+  // };
+
+  // useEffect(() => {
+  //   loadMoreData();
+  // }, []);
 
   return (
     <div className="nav-item absolute right-1 top-16 bg-white dark:bg-[#42464D] p-8 rounded-lg w-96">
@@ -123,7 +126,7 @@ const UserProfile = () => {
                 <List.Item key={item.title}>
                   <List.Item.Meta
                     avatar={<Avatar src="https://joeschmoe.io/api/v1/random" />}
-                    title={<a href="https://ant.design">{item.title}</a>}
+                    title={<a href="https://ant.design">dwssd{item.data}</a>}
                     description="Ant Design, a design language for background applications, is refined by Ant UED Team"
                   />
                 </List.Item>
