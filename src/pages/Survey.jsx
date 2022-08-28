@@ -61,41 +61,6 @@ const Survey = () => {
       title: "안녕하세요 이버",
       date: "2022-12-31",
     },
-    {
-      key: "8",
-      index: "1",
-      name: "김석삼",
-      title: "안녕하세요 이버",
-      date: "2022-12-31",
-    },
-    {
-      key: "9",
-      index: "1",
-      name: "김석삼",
-      title: "안녕하세요 이버",
-      date: "2022-12-31",
-    },
-    {
-      key: "10",
-      index: "1",
-      name: "김석삼",
-      title: "안녕하세요 이버",
-      date: "2022-12-31",
-    },
-    {
-      key: "11",
-      index: "1",
-      name: "김석삼",
-      title: "안녕하세요 이버",
-      date: "2022-12-31",
-    },
-    {
-      key: "12",
-      index: "1",
-      name: "김석삼",
-      title: "안녕하세요 이버",
-      date: "2022-12-31",
-    },
   ];
 
   const handleSearch = (selectedKeys, confirm, dataIndex) => {
@@ -206,7 +171,7 @@ const Survey = () => {
       title: "Index",
       dataIndex: "index",
       key: "index",
-      width: "10%",
+      width: "15%",
     },
     {
       title: "작성자",

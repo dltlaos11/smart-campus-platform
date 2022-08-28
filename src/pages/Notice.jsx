@@ -177,7 +177,7 @@ const Notice = () => {
       title: "Index",
       dataIndex: "notice_id",
       key: "notice_id",
-      width: "10%",
+      width: "15%",
     },
     {
       title: "작성자",

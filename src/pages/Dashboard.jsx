@@ -32,12 +32,11 @@ const Dashboard = () => {
     length: 5, // 값 받으면 _ 부분 처리 가능할지도?
   }).map((_, i) => ({
     href: "https://ant.design",
-    title: `ant design part ${i}`,
+    title: `부서 ${i}`,
     avatar: "https://joeschmoe.io/api/v1/random",
-    description:
-      "Ant Design, a design language for background applications, is refined by Ant UED Team.",
+    description: "안녕하세요",
     content:
-      "We supply a series of design principles, practical patterns and high quality design resources (Sketch and Axure), to help people create their product prototypes beautifully and efficiently.",
+      "반갑습니다.반갑습니다.반갑습니다.반갑습니다.반갑습니다.반갑습니다.반갑습니다.",
   }));
 
   return (
