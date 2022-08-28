@@ -1,110 +1,75 @@
-import React, { useRef, useState } from "react";
+import React, { useRef, useState, useEffect } from "react";
 import { Header } from "../components";
 import { Button, Input, Space, Table } from "antd";
 import { SearchOutlined } from "@ant-design/icons";
 import Highlighter from "react-highlight-words";
 import { Link, useNavigate } from "react-router-dom";
 import NoticeDetail from "./NoticeDetail";
+import { useStateContext } from "../contexts/ContextProvider";
+
+import NoticeService from "../api/notice.service";
+
+import authHeader from "../api/auth-header";
+import api from "../api/axios";
 
 const Notice = () => {
   const [searchText, setSearchText] = useState("");
   const [searchedColumn, setSearchedColumn] = useState("");
   const searchInput = useRef(null);
 
-  const data = [
-    {
-      key: "1",
-      index: "1",
-      name: "김석삼",
-      title: "안녕하세요 이버",
-      date: "2022-12-31",
-    },
-    {
-      key: "2",
-      index: "2",
-      name: "감사머",
-      title: "2번 글입니다.세요 이버",
-      date: "2022-12-30",
-    },
-    {
-      key: "3",
-      index: "3",
-      name: "오이지",
-      title: "3번 글임. 세요 이버버이니니다",
-      date: "2022-12-12",
-    },
-    {
-      key: "4",
-      index: "4",
-      name: "안영사",
-      title: "4번 글입니다.세요 이버",
-      date: "2022-12-15",
-    },
-    {
-      key: "5",
-      index: "1",
-      name: "김석삼",
-      title: "안녕하세요 이버",
-      date: "2022-12-31",
-    },
-    {
-      key: "6",
-      index: "1",
-      name: "김석삼",
-      title: "안녕하세요 이버",
-      date: "2022-12-31",
-    },
-    {
-      key: "7",
-      index: "1",
-      name: "김석삼",
-      title: "안녕하세요 이버",
-      date: "2022-12-31",
-    },
-    {
-      key: "8",
-      index: "1",
-      name: "김석삼",
-      title: "안녕하세요 이버",
-      date: "2022-12-31",
-    },
-    {
-      key: "9",
-      index: "1",
-      name: "김석삼",
-      title: "안녕하세요 이버",
-      date: "2022-12-31",
-    },
-    {
-      key: "1",
-      index: "1",
-      name: "김석삼",
-      title: "안녕하세요 이버",
-      date: "2022-12-31",
-    },
-    {
-      key: "10",
-      index: "1",
-      name: "김석삼",
-      title: "안녕하세요 이버",
-      date: "2022-12-31",
-    },
-    {
-      key: "11",
-      index: "1",
-      name: "김석삼",
-      title: "안녕하세요 이버",
-      date: "2022-12-31",
-    },
-    {
-      key: "12",
-      index: "1",
-      name: "김석삼",
-      title: "안녕하세요 이버",
-      date: "2022-12-31",
-    },
-  ];
+  let { isclick, setIsclick } = useStateContext();
+  let { noticedata, setNoticedata } = useStateContext();
+  // const data = [
+  //   {
+  //     key: 1,
+  //     index: 1,
+  //     name: "김석삼",
+  //     title: "안녕하세요 이버",
+  //     date: "2022-12-31",
+  //     file_content: 0,
+  //   },
+  //   {
+  //     key: 2,
+  //     index: 2,
+  //     name: "감사머",
+  //     title: "2번 글입니다.세요 이버",
+  //     date: "2022-12-30",
+  //     file_content: 0,
+  //   },
+  // ];
 
+  const getNoticeAllWeb = () => {
+    console.log(isclick?.group_id);
+    return api.get(`api/api/notice/all-web?group_id=${isclick?.group_id}`, {
+      headers: authHeader(),
+    });
+  };
+  // console.log(isclick?.group_id);
+  useEffect(() => {
+    const getAllNotice = async () => {
+      await getNoticeAllWeb()
+        .then((res) => res.data.response)
+        .then(
+          (body) => {
+            body.forEach((e) => {
+              if (!e["key"]) {
+                e["key"] = e.notice_id;
+                e["create_time"] = e["create_time"].slice(0, 10);
+                e["name"] = "주용준"; // name 없어서 예비
+                setNoticedata(body);
+              }
+            });
+            console.log(body);
+          },
+          (error) => {
+            console.log(error);
+          }
+        );
+    };
+    getAllNotice();
+  }, [isclick?.group_id]);
+
+  // console.log(data, "22222");
   const handleSearch = (selectedKeys, confirm, dataIndex) => {
     confirm();
     setSearchText(selectedKeys[0]);
@@ -210,8 +175,8 @@ const Notice = () => {
   const columns = [
     {
       title: "Index",
-      dataIndex: "index",
-      key: "index",
+      dataIndex: "notice_id",
+      key: "notice_id",
       width: "10%",
     },
     {
@@ -230,8 +195,8 @@ const Notice = () => {
     },
     {
       title: "날짜",
-      dataIndex: "date",
-      key: "date",
+      dataIndex: "create_time",
+      key: "create_time",
       ...getColumnSearchProps("date"),
       sorter: (a, b) => a.date.length - b.date.length,
       sortDirections: ["descend", "ascend"],
@@ -245,7 +210,7 @@ const Notice = () => {
         <Header category="Pages" title="공지사항" />
         <Table
           columns={columns}
-          dataSource={data}
+          dataSource={noticedata}
           scroll={{ y: 300, x: true }}
           onRow={(record, recordIndex) => ({
             // onClick: event => { console.log(event.target, event.target.className, record, recordIndex) }

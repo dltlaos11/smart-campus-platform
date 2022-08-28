@@ -1,6 +1,8 @@
 import React, { useState, useEffect } from "react";
 import { useStateContext } from "../contexts/ContextProvider";
 import App from "../App";
+import LevelCheck from "./LevelCheck";
+import { Modal } from "antd";
 
 import AuthService from "../api/auth.service";
 import NoticeService from "../api/notice.service";
@@ -10,17 +12,18 @@ const Login = () => {
   const [password, setPw] = useState("1q2w3e4r~!");
 
   const { isLoggedIn, setIsLoggedIn } = useStateContext();
+  const [visible, setVisible] = useState(false);
 
+  const user = JSON.parse(localStorage.getItem("user"));
+  // console.log(user.response.level)
   const handleLogin = async (e) => {
     e.preventDefault();
     try {
       await AuthService.login(user_id, password).then(
         (res) => {
           // window.location.reload();
-          const user = JSON.parse(localStorage.getItem("user"));
 
           if (user && user.response.jwt_token) {
-            console.log("Fhrmdls");
             setIsLoggedIn(true);
           } else {
             setIsLoggedIn(false);
@@ -36,21 +39,11 @@ const Login = () => {
     }
   };
 
-  useEffect(() => {
-    NoticeService.getNoticeAllWeb().then(
-      (res) => {
-        console.log(res);
-      },
-      (error) => {
-        console.log(error);
-      }
-    );
-  }, []);
-
   return (
     <>
+      {/* user.response.level===1 && */}
       {isLoggedIn ? (
-        <App />
+        <LevelCheck />
       ) : (
         <>
           <div my-3>
@@ -121,7 +114,7 @@ const Login = () => {
                       </div>
                     </div>
                     <div className="flex flex-wrap mt-6 relative">
-                      <div className="w-1/2 ">
+                      <div className="w-1/3 ">
                         <a
                           target="_blank"
                           href="https://portal.hoseo.edu/huis/FindIdPage.do"
@@ -133,7 +126,29 @@ const Login = () => {
                           </small>
                         </a>
                       </div>
-                      <div className="w-1/2 text-right">
+                      <div className="w-1/3 text-center">
+                        <a
+                          target="_blank"
+                          rel="noreferrer"
+                          className="text-slate-700"
+                          onClick={() => {
+                            setVisible(true);
+                          }}
+                        >
+                          <small className=" hover:text-red-700 hover:text-base hover:font-extrabold transition-all duration-150">
+                            신규 관리자 그룹 신청
+                          </small>
+                        </a>
+                        <Modal
+                          title="Modal 1000px width"
+                          centered
+                          visible={visible}
+                          onOk={() => setVisible(false)}
+                          onCancel={() => setVisible(false)}
+                          width={1000}
+                        ></Modal>
+                      </div>
+                      <div className="w-1/3 text-right">
                         <a
                           target="_blank"
                           href="https://portal.hoseo.edu/huis/InitPwdPage.do"

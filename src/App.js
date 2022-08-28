@@ -24,9 +24,10 @@ import NoticeWrite from "./pages/NoticeWrite";
 const App = () => {
   const { activeMenu } = useStateContext();
   // const activeMenu = true;
+  const user = JSON.parse(localStorage.getItem("user"));
 
   return (
-    <div>
+   <div>
       <BrowserRouter>
         <div className="flex relative dark:bg-main-dark-bg">
           <div className="fixed right-4 bottom-4" style={{ zIndex: "1000" }}>

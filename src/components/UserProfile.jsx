@@ -14,59 +14,28 @@ import GroupService from "../api/group.service";
 
 const UserProfile = () => {
   const { currentColor } = useStateContext();
-  const [data1, setData] = useState([]);
+  let { owndata, setOwndata } = useStateContext();
+  let { isclick, setIsclick } = useStateContext();
 
-  const [data, setData1] = useState([]);
-  // let data = [
-  //   {
-  //     title: "Ant Design Title 1",
-  //   },
-  // ];
-
-  const getuserprofile = async () => {
-    try {
-      await GroupService.getGroupAll().then(
-        (res) => {
-          console.log(res);
-          setData1(res.data.response);
-          console.log(data);
-        },
-        (error) => {
-          console.log(error);
-        }
-      );
-    } catch (err) {
-      console.log(err);
-    }
-  };
+  const user = JSON.parse(localStorage.getItem("user"));
+  console.log(isclick, "141414", owndata.length);
   useEffect(() => {
-    getuserprofile();
+    // hooks 최상위 선언부
+    const getuserprofile = async () => {
+      // setLoading(false);
+      await GroupService.getGroupOwn()
+        .then((res) => res.data.response)
+        .then((body) => {
+          console.log(body);
+          setOwndata([...owndata, ...body]);
+          setIsclick(body[0]);
+        });
+    };
+    // console.log(isclick, "333");
+    if (owndata.length === 0) {
+      getuserprofile();
+    }
   }, []);
-
-  // const [loading, setLoading] = useState(false);
-
-  // const loadMoreData = () => {
-  //   if (loading) {
-  //     return;
-  //   }
-
-  //   setLoading(true);
-  //   fetch(
-  //     "https://randomuser.me/api/?results=10&inc=name,gender,email,nat,picture&noinfo"
-  //   )
-  //     .then((res) => res.json())
-  //     .then((body) => {
-  //       setData([...data, ...body.results]);
-  //       setLoading(false);
-  //     })
-  //     .catch(() => {
-  //       setLoading(false);
-  //     });
-  // };
-
-  // useEffect(() => {
-  //   loadMoreData();
-  // }, []);
 
   return (
     <div className="nav-item absolute right-1 top-16 bg-white dark:bg-[#42464D] p-8 rounded-lg w-96">
@@ -87,11 +56,15 @@ const UserProfile = () => {
           alt="user-profile"
         />
         <div>
-          <p className="font-semibold text-xl dark:text-gray-200"> 주용준 </p>
-          <p className="text-gray-500 text-sm dark:text-gray-400"> 관리자 </p>
+          <p className="font-semibold text-xl dark:text-gray-200">
+            {isclick?.group_name}
+            {/* 주용준{console.log(owndata[0]?.group_name, "22")} 옵셔널체이닝*/}
+            {/* {isclick === owndata ? "2222gg" : isclick?.group_name} */}
+          </p>
+          <p className="text-gray-500 text-sm dark:text-gray-400"> </p>
           <p className="text-gray-500 text-sm font-semibold dark:text-gray-400">
             {" "}
-            info@shop.com{" "}
+            {isclick?.intro}
           </p>
         </div>
       </div>
@@ -106,7 +79,7 @@ const UserProfile = () => {
           }}
         >
           <InfiniteScroll
-            dataLength={data.length}
+            dataLength={owndata.length}
             loader={
               <Skeleton
                 avatar
@@ -121,14 +94,17 @@ const UserProfile = () => {
           >
             <List
               // itemLayout="horizontal"
-              dataSource={data}
+              dataSource={owndata}
               renderItem={(item) => (
                 <List.Item key={item.title}>
                   <List.Item.Meta
                     avatar={<Avatar src="https://joeschmoe.io/api/v1/random" />}
-                    title={<a href="https://ant.design">dwssd{item.data}</a>}
-                    description="Ant Design, a design language for background applications, is refined by Ant UED Team"
+                    title={
+                      <a onClick={() => setIsclick(item)}>{item.group_name}</a>
+                    }
+                    description={item.intro}
                   />
+                  {/* {console.log(data)} */}
                 </List.Item>
               )}
             />
