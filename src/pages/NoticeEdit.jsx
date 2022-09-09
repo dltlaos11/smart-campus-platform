@@ -20,15 +20,25 @@ import ClassicEditor from "@ckeditor/ckeditor5-build-classic";
 import noticeService from "../api/notice.service";
 
 import { useNavigate } from "react-router-dom";
+import { useStateNoticeContext } from "../contexts/NoticeProvider";
 
-const NoticeWrite = () => {
-  const [title, setTitle] = useState("");
+const NoticeEdit = () => {
+  let { isclick, setIsclick } = useStateContext();
+  let { noticeTitle, setNoticeTitle } = useStateNoticeContext();
+  let { noticeContent, setNoticeContent } = useStateNoticeContext();
+
+  let { noticedata, setNoticedata } = useStateContext();
+
+  let { noticeDetailId, setNoticeDetailId } = useStateNoticeContext();
+
+  //   const [title, setTitle] = useState(s);
   const [content, setContent] = useState("");
   let [files, setFiles] = useState([]);
-  let { isclick, setIsclick } = useStateContext();
 
-  console.log(isclick?.group_id, "NoticeWrite 26");
+  //   console.log(noticeDetailId, "NoticeEdit 36");
+  //   console.log(isclick?.group_id, "NoticeEdit 37");
 
+  //   console.log(noticeTitle);
   useEffect(() => {
     console.log(files);
   }, [files]);
@@ -38,7 +48,12 @@ const NoticeWrite = () => {
 
     try {
       await noticeService
-        .noticePost(isclick?.group_id, title, content.content)
+        .noticeEdit(
+          noticeDetailId,
+          isclick?.group_id,
+          noticeTitle,
+          content.content
+        )
         .then(
           (res) => {
             console.log(res);
@@ -57,7 +72,7 @@ const NoticeWrite = () => {
   return (
     <div className="min-h-screen md:px-10 pt-40">
       <div className=" bg-white rounded px-6 py-10 w-full mx-auto mb-10">
-        <h1 className="text-2xl font-bold">공지사항 작성</h1>
+        <h1 className="text-2xl font-bold">공지사항 수정</h1>
         <div className=" h-16 flex">
           <div className="flex flex-row my-auto w-full text-center border border-gray-400">
             <div className="flex basis-2/12 bg-gray-200">
@@ -65,9 +80,11 @@ const NoticeWrite = () => {
             </div>
             <form className="basis-10/12 border-gray-400 border-l">
               <input
+                value={noticeTitle}
                 className="w-full outline-none h-10 ml-3"
                 onChange={(e) => {
-                  setTitle(e.currentTarget.value);
+                  setNoticeTitle(e.currentTarget.value);
+                  //   setTitle(e.currentTarget.value);
                 }}
               />
             </form>
@@ -77,7 +94,7 @@ const NoticeWrite = () => {
         <div className=" h-good">
           <CKEditor
             editor={ClassicEditor}
-            data="<p>Hello from CKEditor 5!</p>"
+            data={noticeContent}
             onReady={(editor) => {
               // You can store the "editor" and use when it is needed.
               console.log("Editor is ready to use!", editor);
@@ -103,7 +120,7 @@ const NoticeWrite = () => {
         <div className="">
           {" "}
           <Upload.Dragger
-            action={"http://localhost:3000/NoticeWrite/"}
+            action={"http://localhost:3000/noticeEdit/"}
             multiple
             listType="picture"
             showUploadList={{ showRemoveIcon: true }}
@@ -128,7 +145,7 @@ const NoticeWrite = () => {
               <input
                 className="w-full outline-none h-10 ml-3"
                 onChange={(e) => {
-                  setTitle(e.currentTarget.value);
+                  //   setTitle(e.currentTarget.value);
                 }}
               />
             </form>
@@ -176,4 +193,4 @@ const NoticeWrite = () => {
   );
 };
 
-export default NoticeWrite;
+export default NoticeEdit;

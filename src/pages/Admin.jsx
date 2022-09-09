@@ -107,7 +107,7 @@ const Admin = () => {
     {
       title: "관리자",
       dataIndex: "name",
-      width: "40%",
+      width: "20%",
       editable: true,
     },
     {
@@ -119,6 +119,7 @@ const Admin = () => {
     {
       title: "레벨 수정",
       dataIndex: "operation",
+      width: "20%",
       render: (_, record) => {
         const editable = isEditing(record);
         return editable ? (

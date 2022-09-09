@@ -11,4 +11,15 @@ module.exports = function (app) {
       },
     })
   );
+
+  app.use(
+    "/noticeDetail",
+    createProxyMiddleware("/noticeDetail", {
+      target: "http://210.119.108.237:3000",
+      changeOrigin: true,
+      pathRewrite: {
+        "^/noticeDetail": "",
+      },
+    })
+  );
 };

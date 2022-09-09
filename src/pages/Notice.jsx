@@ -3,7 +3,7 @@ import { Header } from "../components";
 import { Button, Input, Space, Table } from "antd";
 import { SearchOutlined } from "@ant-design/icons";
 import Highlighter from "react-highlight-words";
-import { Link, useNavigate } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 import NoticeDetail from "./NoticeDetail";
 import { useStateContext } from "../contexts/ContextProvider";
 
@@ -56,7 +56,7 @@ const Notice = () => {
                 e["key"] = e.notice_id;
                 e["create_time"] = e["create_time"].slice(0, 10);
                 e["name"] = "주용준"; // name 없어서 예비
-                setNoticedata(body);
+                setNoticedata([...body]); //🟢
               }
             });
             console.log(body);
@@ -223,7 +223,7 @@ const Notice = () => {
         <div className="h-24 flex justify-end w-full">
           <button
             onClick={() => {
-              navigate("/NoticeWrite");
+              navigate("/noticeWrite");
             }}
             className="bg-red-800 shadow-lg my-auto text-center rounded-2xl text-white p-3 w-32 mr-7"
           >

@@ -9,6 +9,7 @@ import GroupService from "../api/group.service";
 
 const Dashboard = () => {
   let { isclick, setIsclick } = useStateContext();
+  let { owndata, setOwndata } = useStateContext();
 
   useEffect(() => {
     // hooks 최상위 선언부
@@ -22,21 +23,33 @@ const Dashboard = () => {
         });
     };
 
+    const GroupAdmin = async () => {
+      await GroupService.getGroupOwn()
+        .then((res) => res.data.response)
+        .then((body) => {
+          console.log(body);
+          setOwndata([...owndata, ...body]);
+        });
+    };
+
     if (isclick.length === 0) {
       // 처음 한번만 실행
       setGroupid();
+      GroupAdmin();
     }
   }, []);
   console.log(isclick, "333333");
+  console.log(owndata);
+  console.log(owndata[0]?.group_id, "DASHBOARD");
+
   const data1 = Array.from({
-    length: 5, // 값 받으면 _ 부분 처리 가능할지도?
+    length: owndata.length, // 값 받으면 _ 부분 처리 가능할지도?
   }).map((_, i) => ({
-    href: "https://ant.design",
-    title: `부서 ${i}`,
-    avatar: "https://joeschmoe.io/api/v1/random",
-    description: "안녕하세요",
-    content:
-      "반갑습니다.반갑습니다.반갑습니다.반갑습니다.반갑습니다.반갑습니다.반갑습니다.",
+    group_id: owndata[i]?.group_id,
+    group_name: `${owndata[i]?.group_name}`,
+    group_image: `${owndata[i]?.group_image}`,
+    // description: " ",
+    intro: `${owndata[i]?.intro}`,
   }));
 
   return (
@@ -68,7 +81,7 @@ const Dashboard = () => {
               dataSource={data1}
               renderItem={(item) => (
                 <List.Item
-                  key={item.title}
+                  key={item.group_name}
                   extra={
                     <img
                       width={272}
@@ -78,22 +91,24 @@ const Dashboard = () => {
                   }
                 >
                   <List.Item.Meta
-                    avatar={<Avatar src={item.avatar} />}
-                    title={<a href={item.href}>{item.title}</a>}
+                    avatar={<Avatar src={item.group_image} />}
+                    title={
+                      <a onClick={() => setIsclick(item)}>{item.group_name}</a>
+                    }
                     description={item.description}
                   />
-                  {item.content}
+                  {item.intro}
                 </List.Item>
               )}
             />
-            <button
+            {/* <button
               onClick={() => {
                 // navigate("/NoticeWrite");
               }}
               className="bg-red-800 shadow-lg mt-8 text-center rounded-2xl text-white p-3 w-32 ml-[1050px]"
             >
               부서 추가, modal 파일 완성 후
-            </button>
+            </button> */}
           </div>
         </div>
         <div className="grid grid-cols-1  gap-4">

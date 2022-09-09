@@ -18,8 +18,10 @@ import {
 import "./App.css";
 
 import { useStateContext } from "./contexts/ContextProvider";
+import { useStateNoticeContext } from "./contexts/NoticeProvider";
 import NoticeDetail from "./pages/NoticeDetail";
 import NoticeWrite from "./pages/NoticeWrite";
+import NoticeEdit from "./pages/NoticeEdit";
 
 const App = () => {
   const { activeMenu } = useStateContext();
@@ -27,7 +29,7 @@ const App = () => {
   const user = JSON.parse(localStorage.getItem("user"));
 
   return (
-   <div>
+    <div>
       <BrowserRouter>
         <div className="flex relative dark:bg-main-dark-bg">
           <div className="fixed right-4 bottom-4" style={{ zIndex: "1000" }}>
@@ -68,6 +70,7 @@ const App = () => {
                 <Route path="/notice" element={<Notice />} />
                 <Route path="/noticeWrite" element={<NoticeWrite />} />
                 <Route path="/noticeDetail/:id" element={<NoticeDetail />} />
+                <Route path="/noticeEdit" element={<NoticeEdit />} />
                 <Route path="/survey" element={<Survey />} />
                 <Route path="/surveyWrite" element={<SurveyWrite />} />
                 <Route path="/surveyDetail/:id" element={<SurveyDetail />} />
