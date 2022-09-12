@@ -3,6 +3,7 @@ import { useStateContext } from "../contexts/ContextProvider";
 import { InboxOutlined, UploadOutlined } from "@ant-design/icons";
 import {
   Button,
+  Input,
   Checkbox,
   Col,
   Form,
@@ -18,24 +19,26 @@ import {
 import { CKEditor } from "@ckeditor/ckeditor5-react";
 import ClassicEditor from "@ckeditor/ckeditor5-build-classic";
 import noticeService from "../api/notice.service";
+import pushService from "../api/push.service";
 
 import { useNavigate } from "react-router-dom";
 
 const NoticeWrite = () => {
   const [title, setTitle] = useState("");
   const [content, setContent] = useState("");
+  const [pushTitle, setPushTitle] = useState("");
+  const [pushContent, setPushContent] = useState("");
   let [files, setFiles] = useState([]);
   let { isclick, setIsclick } = useStateContext();
 
-  console.log(isclick?.group_id, "NoticeWrite 26");
+  const { TextArea } = Input;
+  // console.log(isclick?.group_id, "NoticeWrite 26");
 
   useEffect(() => {
     console.log(files);
   }, [files]);
 
-  const handlePost = async (e) => {
-    // e.preventDefault();
-
+  const handleNoticePost = async (e) => {
     try {
       await noticeService
         .noticePost(isclick?.group_id, title, content.content)
@@ -50,6 +53,28 @@ const NoticeWrite = () => {
     } catch (err) {
       console.log(err);
     }
+  };
+
+  const handlePushPost = async (e) => {
+    try {
+      await pushService
+        .pushPost(isclick?.group_id, pushTitle, pushContent)
+        .then(
+          (res) => {
+            console.log(res);
+          },
+          (err) => {
+            console.log(err);
+          }
+        );
+    } catch (err) {
+      console.log(err);
+    }
+  };
+
+  const onChange = (e) => {
+    console.log("Change:", e.target.value);
+    setPushContent(e.target.value);
   };
 
   const navigate = useNavigate();
@@ -128,7 +153,7 @@ const NoticeWrite = () => {
               <input
                 className="w-full outline-none h-10 ml-3"
                 onChange={(e) => {
-                  setTitle(e.currentTarget.value);
+                  setPushTitle(e.currentTarget.value);
                 }}
               />
             </form>
@@ -136,7 +161,15 @@ const NoticeWrite = () => {
         </div>
         <div className="text-xl font-bold mb-2">내용</div>
         <div className=" h-good">
-          <CKEditor
+          <TextArea
+            showCount
+            maxLength={100}
+            style={{
+              height: 120,
+            }}
+            onChange={onChange}
+          />
+          {/* <CKEditor
             editor={ClassicEditor}
             data="<p>Hello from CKEditor 5!</p>"
             onReady={(editor) => {
@@ -146,10 +179,19 @@ const NoticeWrite = () => {
             onChange={(event, editor) => {
               const data = editor.getData();
               // console.log({ event, editor, data });
-              // setContent({
-              //   ...content,
-              //   content: data,
-              // });
+              console.log({ data });
+              setPushContent({
+                ...pushContent,
+                content: data,
+              });
+              const extractSpanPattern = /<(\/h1|h1)([^>]*)>/gi;
+
+              let eraseSpan = pushContent.content.replace(
+                extractSpanPattern,
+                ""
+              );
+              // console.log( eraseSpan );
+              console.log(eraseSpan);
             }}
             onBlur={(event, editor) => {
               console.log("Blur.", editor);
@@ -157,14 +199,15 @@ const NoticeWrite = () => {
             onFocus={(event, editor) => {
               console.log("Focus.", editor);
             }}
-          />
+          /> */}
         </div>
         <br />
         <div className=" my-2 flex justify-end">
           <button
             className="w-28 p-2 text-white bg-red-800 shadow-lg rounded"
             onClick={() => {
-              handlePost();
+              handleNoticePost();
+              handlePushPost();
               navigate("/");
             }}
           >

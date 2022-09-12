@@ -24,18 +24,44 @@ const NoticeDetail = () => {
   let { noticeDetailId, setNoticeDetailId } = useStateNoticeContext();
 
   const navigate = useNavigate();
-  const noticeDetail = () => {
+  const noticeDetail = async () => {
     navigate("/"); // 😨
     return api.get(`api/api/notice/detail-web?notice_id=${id}`, {
       headers: authHeader(),
     });
   };
 
-  const deleteNotice = async () => {
+  const deleteNotice = async (group_id, notice_id) => {
     // navigate("/"); // 🤔
-    await noticeService
-      .noticeDelete(isclick?.group_id, noticeDetailId)
-      .then((res) => console.log(res));
+
+    return api
+      .delete(
+        "/api/api/notice/delete",
+        {
+          headers: authHeader(),
+          data: {
+            group_id: group_id,
+            notice_id: notice_id,
+          },
+        }
+        // {
+        //   group_id,
+        //   notice_id,
+        // },
+        // {
+        //   headers: authHeader(),
+        //   Authorization: authHeader(),
+        // }
+      )
+      .then(
+        (res) => {
+          console.log(res.data);
+        },
+        (error) => console.log(error.response.data.error)
+      );
+    // await noticeService.noticeDelete(isclick?.group_id, noticeDetailId).then(
+    //   (res) => console.log(res, "@@@@@@@@@@@@@@@"),
+    // );
   };
 
   useEffect(() => {
@@ -106,7 +132,8 @@ const NoticeDetail = () => {
             <button
               className="bg-red-800 shadow-lg my-auto text-center rounded-2xl text-white p-3 w-32"
               onClick={() => {
-                deleteNotice();
+                deleteNotice(isclick?.group_id, noticeDetailId);
+                navigate("/");
               }}
             >
               삭제

@@ -30,13 +30,13 @@ const noticeEdit = (notice_id, group_id, title, content) => {
     .post(
       "api/api/notice/edit",
       {
+        headers: authHeader(),
+      },
+      {
         notice_id,
         group_id,
         title,
         content,
-      },
-      {
-        headers: authHeader(),
       }
     )
     .then((res) => {
@@ -47,13 +47,13 @@ const noticeEdit = (notice_id, group_id, title, content) => {
 const noticeDelete = (group_id, notice_id) => {
   return api
     .delete(
-      "api/api/notice/delete",
+      "/api/api/notice/delete",
+      {
+        headers: authHeader(),
+      },
       {
         group_id,
         notice_id,
-      },
-      {
-        headers: authHeader(),
       }
     )
     .then((res) => {
