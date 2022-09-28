@@ -1,30 +1,56 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { Header } from "../components";
 import { Select, Table, Avatar, List } from "antd";
 import { Modal } from "antd";
-const { Option } = Select;
-const children = [];
-
-for (let i = 10; i < 36; i++) {
-  children.push(<Option key={i.toString(36) + i}>{i.toString(36) + i}</Option>);
-}
-
-const handleChange = (value) => {
-  console.log(value);
-};
-const data1 = Array.from({
-  length: 5, // 값 받으면 _ 부분 처리 가능할지도?
-}).map((_, i) => ({
-  href: "https://ant.design",
-  title: `부서 ${i}`,
-  avatar: "https://joeschmoe.io/api/v1/random",
-  description: "안녕하세요",
-  content:
-    "반갑습니다.반갑습니다.반갑습니다.반갑습니다.반갑습니다.반갑습니다.반갑습니다.",
-}));
+import { useStateContext } from "../contexts/ContextProvider";
+import groupService from "../api/group.service";
 
 const GroupList = () => {
+  let { isclick, setIsclick } = useStateContext();
+  let { owndata, setOwndata } = useStateContext();
+
   const [visible, setVisible] = useState(false);
+  const [selectGroup, setSelectGroup] = useState([]);
+  useEffect(() => {
+    const GroupAdmin = async () => {
+      await groupService
+        .getGroupOwn()
+        .then((res) => res.data.response)
+        .then((body) => {
+          console.log(body);
+          setOwndata([...owndata, ...body]);
+        });
+    };
+
+    if (isclick.length === 0) {
+      // 처음 한번만 실행
+      GroupAdmin();
+    }
+  }, []);
+
+  const data1 = Array.from({
+    length: owndata.length, // 값 받으면 _ 부분 처리 가능할지도?
+  }).map((_, i) => ({
+    group_id: owndata[i]?.group_id,
+    group_name: `${owndata[i]?.group_name}`,
+    group_image: `${owndata[i]?.group_image}`,
+    // description: " ",
+    intro: `${owndata[i]?.intro}`,
+  }));
+
+  const { Option } = Select;
+  const children = [];
+
+  for (let i = 0; i < data1?.length; i++) {
+    children.push(
+      <Option key={data1[i]?.group_name}>{data1[i]?.group_name}</Option>
+    );
+  }
+  const handleChange = (value) => {
+    // console.log(value);
+    setSelectGroup(value);
+    console.log(selectGroup);
+  };
 
   return (
     <div className="m-2 md:m-10 mt-24 p-2 md:p-10 bg-slate-50 rounded-3xl ">
@@ -42,7 +68,7 @@ const GroupList = () => {
         dataSource={data1}
         renderItem={(item) => (
           <List.Item
-            key={item.title}
+            key={item.group_name}
             extra={
               <img
                 width={272}
@@ -51,13 +77,21 @@ const GroupList = () => {
               />
             }
           >
-            dwdw
             <List.Item.Meta
-              avatar={<Avatar src={item.avatar} />}
-              title={<a href={item.href}>{item.title}</a>}
+              avatar={<Avatar src={item.group_image} />}
+              title={
+                <a
+                  onClick={() => {
+                    setIsclick(item);
+                    console.log(selectGroup);
+                  }}
+                >
+                  {item.group_name}
+                </a>
+              }
               description={item.description}
             />
-            {item.content}
+            {item.intro}
           </List.Item>
         )}
       />

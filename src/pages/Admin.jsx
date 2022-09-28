@@ -1,197 +1,220 @@
-import React, { useState } from "react";
+import React, { useRef, useState } from "react";
 import { Header } from "../components";
-import { Form, Input, InputNumber, Popconfirm, Table, Typography } from "antd";
-const originData = [];
+import { Button, Input, Space, Table, Modal } from "antd";
+import { SearchOutlined } from "@ant-design/icons";
+import Highlighter from "react-highlight-words";
+import { Link, useNavigate } from "react-router-dom";
+import NoticeDetail from "./NoticeDetail";
 
-for (let i = 0; i < 50; i++) {
-  originData.push({
-    key: i.toString(),
-    user_id: i,
-    level: 8,
-    name: "주용준",
-    department: "컴퓨터공학부",
-  });
-}
+const Survey = () => {
+  const [searchText, setSearchText] = useState("");
+  const [searchedColumn, setSearchedColumn] = useState("");
+  const searchInput = useRef(null);
 
-const EditableCell = ({
-  editing,
-  dataIndex,
-  title,
-  inputType,
-  record,
-  index,
-  children,
-  ...restProps
-}) => {
-  const inputNode = inputType === "number" ? <InputNumber /> : <Input />;
-  return (
-    <td {...restProps}>
-      {editing ? (
-        <Form.Item
-          name={dataIndex}
+  const [visible, setVisible] = useState(false);
+
+  const data = [
+    {
+      key: "1",
+      index: "1",
+      name: "김석삼",
+      title: "안녕하세요 이버",
+    },
+    {
+      key: "2",
+      index: "2",
+      name: "감사머",
+      title: "2번 글입니다.세요 이버",
+    },
+    {
+      key: "3",
+      index: "3",
+      name: "오이지",
+      title: "3번 글임. 세요 이버버이니니다",
+    },
+    {
+      key: "4",
+      index: "4",
+      name: "안영사",
+      title: "4번 글입니다.세요 이버",
+    },
+    {
+      key: "5",
+      index: "1",
+      name: "김석삼",
+      title: "안녕하세요 이버",
+    },
+    {
+      key: "6",
+      index: "1",
+      name: "김석삼",
+      title: "안녕하세요 이버",
+    },
+    {
+      key: "7",
+      index: "1",
+      name: "김석삼",
+      title: "안녕하세요 이버",
+    },
+  ];
+
+  const handleSearch = (selectedKeys, confirm, dataIndex) => {
+    confirm();
+    setSearchText(selectedKeys[0]);
+    setSearchedColumn(dataIndex);
+  };
+
+  const handleReset = (clearFilters) => {
+    clearFilters();
+    setSearchText("");
+  };
+
+  const getColumnSearchProps = (dataIndex) => ({
+    filterDropdown: ({
+      setSelectedKeys,
+      selectedKeys,
+      confirm,
+      clearFilters,
+    }) => (
+      <div
+        style={{
+          padding: 8,
+        }}
+      >
+        <Input
+          ref={searchInput}
+          placeholder={`Search ${dataIndex}`}
+          value={selectedKeys[0]}
+          onChange={(e) =>
+            setSelectedKeys(e.target.value ? [e.target.value] : [])
+          }
+          onPressEnter={() => handleSearch(selectedKeys, confirm, dataIndex)}
           style={{
-            margin: 0,
+            marginBottom: 8,
+            display: "block",
           }}
-          rules={[
-            {
-              required: true,
-              message: `Please Input ${title}!`,
-            },
-          ]}
-        >
-          {inputNode}
-        </Form.Item>
-      ) : (
-        children
-      )}
-    </td>
-  );
-};
-
-const Admin = () => {
-  const [form] = Form.useForm();
-  const [data, setData] = useState(originData);
-  const [editingKey, setEditingKey] = useState("");
-
-  const isEditing = (record) => record.key === editingKey;
-
-  const edit = (record) => {
-    form.setFieldsValue({
-      user_id: "",
-      level: "",
-      name: "",
-      department: "",
-      ...record,
-    });
-    setEditingKey(record.key);
-  };
-
-  const cancel = () => {
-    setEditingKey("");
-  };
-
-  const save = async (key) => {
-    try {
-      const row = await form.validateFields();
-      const newData = [...data];
-      const index = newData.findIndex((item) => key === item.key);
-
-      if (index > -1) {
-        const item = newData[index];
-        newData.splice(index, 1, { ...item, ...row });
-        setData(newData);
-        setEditingKey("");
-      } else {
-        newData.push(row);
-        setData(newData);
-        setEditingKey("");
+        />
+        <Space>
+          <Button
+            type="primary"
+            onClick={() => handleSearch(selectedKeys, confirm, dataIndex)}
+            icon={<SearchOutlined />}
+            size="small"
+            style={{
+              width: 90,
+            }}
+          >
+            Search
+          </Button>
+          <Button
+            onClick={() => clearFilters && handleReset(clearFilters)}
+            size="small"
+            style={{
+              width: 90,
+            }}
+          >
+            Reset
+          </Button>
+          <Button
+            type="link"
+            size="small"
+            onClick={() => {
+              confirm({
+                closeDropdown: false,
+              });
+              setSearchText(selectedKeys[0]);
+              setSearchedColumn(dataIndex);
+            }}
+          >
+            Filter
+          </Button>
+        </Space>
+      </div>
+    ),
+    filterIcon: (filtered) => (
+      <SearchOutlined
+        style={{
+          color: filtered ? "#1890ff" : undefined,
+        }}
+      />
+    ),
+    onFilter: (value, record) =>
+      record[dataIndex].toString().toLowerCase().includes(value.toLowerCase()),
+    onFilterDropdownVisibleChange: (visible) => {
+      if (visible) {
+        setTimeout(() => searchInput.current?.select(), 100);
       }
-    } catch (errInfo) {
-      console.log("Validate Failed:", errInfo);
-    }
-  };
+    },
+    render: (text) =>
+      searchedColumn === dataIndex ? (
+        <Highlighter
+          highlightStyle={{
+            backgroundColor: "#ffc069",
+            padding: 0,
+          }}
+          searchWords={[searchText]}
+          autoEscape
+          textToHighlight={text ? text.toString() : ""}
+        />
+      ) : (
+        text
+      ),
+  });
 
   const columns = [
     {
-      title: "순번",
-      dataIndex: "user_id",
+      title: "Index",
+      dataIndex: "index",
+      key: "index",
       width: "15%",
-      editable: true,
     },
     {
-      title: "레벨",
-      dataIndex: "level",
-      width: "15%",
-      editable: true,
-    },
-    {
-      title: "관리자",
+      title: "이름",
       dataIndex: "name",
+      key: "name",
       width: "20%",
-      editable: true,
+      ...getColumnSearchProps("name"),
     },
     {
-      title: "부서",
-      dataIndex: "department",
-      width: "40%",
-      editable: true,
-    },
-    {
-      title: "레벨 수정",
-      dataIndex: "operation",
-      width: "20%",
-      render: (_, record) => {
-        const editable = isEditing(record);
-        return editable ? (
-          <span>
-            <Typography.Link
-              onClick={() => save(record.key)}
-              style={{
-                marginRight: 8,
-              }}
-            >
-              Save
-            </Typography.Link>
-            <Popconfirm title="취소하시겠어요?" onConfirm={cancel}>
-              <a>Cancel</a>
-            </Popconfirm>
-          </span>
-        ) : (
-          <Typography.Link
-            disabled={editingKey !== ""}
-            onClick={() => edit(record)}
-          >
-            Edit
-          </Typography.Link>
-        );
-      },
+      title: "admin_group_id",
+      dataIndex: "title",
+      key: "title",
+      width: "30%",
+      ...getColumnSearchProps("title"),
     },
   ];
-  const mergedColumns = columns.map((col) => {
-    if (!col.editable) {
-      return col;
-    }
-    return {
-      ...col,
-      onCell: (record) => ({
-        record,
-        inputType: col.dataIndex === "level" ? "number" : "text", // "age" => "level"
-        dataIndex: col.dataIndex,
-        title: col.title,
-        editing: isEditing(record),
-      }),
-    };
-  });
+
+  const navigate = useNavigate();
+
   return (
     <>
-      <div className="m-2 mt-24 p-2 md:m-10 md:p-10 bg-white rounded-3xl">
-        <Header category="Page" title="관리자 관리" />
-        <Form form={form} component={false}>
-          <Table
-            components={{
-              body: {
-                cell: EditableCell,
-              },
-            }}
-            bordered
-            dataSource={data}
-            columns={mergedColumns}
-            rowClassName="editable-row"
-            pagination={{
-              onChange: cancel,
-            }}
-          />
-        </Form>
+      <div className="m-2 md:m-10 mt-24 p-2 md:p-10 bg-white rounded-3xl ">
+        <Header category="Pages" title="관리자 관리" />
+        <Table
+          columns={columns}
+          dataSource={data}
+          scroll={{ y: 300, x: true }}
+          onRow={(record, recordIndex) => ({
+            // onClick: event => { console.log(event.target, event.target.className, record, recordIndex) }
+            onClick: () => {
+              setVisible(true);
+            },
+          })}
+        />
       </div>
-      {/* <div className="ml-[1400px] bg-red-300 w-[50px] h-[340px] rounded-3xl grid grid-cols-1 divide-y divide-solid justify-center text-center">
-        <div className="">01</div>
-        <div className="">01</div>
-        <div className="">01</div>
-        <div className="">01</div>
-        <div className="">01</div>
-      </div> */}
+      <Modal
+        title="선택하신 부서에 대한 요청이 성공되었습니다 !"
+        centered
+        visible={visible}
+        onOk={() => setVisible(false)} // 📗
+        onCancel={() => setVisible(false)}
+        width={700}
+      >
+        <p>선택하신 부서에 대한 신청이 요청되었습니다.</p>
+        <p>관리자 승인을 받을 떄 까지 기다려주세요🙂</p>
+      </Modal>
     </>
   );
 };
 
-export default Admin;
+export default Survey;

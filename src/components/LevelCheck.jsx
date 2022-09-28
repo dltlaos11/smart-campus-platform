@@ -8,11 +8,11 @@ const LevelCheck = () => {
   return (
     <>
       {user.response.level === 8 ? (
-        // <App />
-        <GroupList />
+        <App />
       ) : (
         // <GroupList />
-        <App />
+        <GroupList />
+        // <App />
       )}
     </>
   );
