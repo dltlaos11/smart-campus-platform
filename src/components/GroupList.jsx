@@ -43,7 +43,7 @@ const GroupList = () => {
 
   for (let i = 0; i < data1?.length; i++) {
     children.push(
-      <Option key={data1[i]?.group_name}>{data1[i]?.group_name}</Option>
+      <Option key={data1[i]?.group_id}>{data1[i]?.group_name}</Option>
     );
   }
   const handleChange = (value) => {

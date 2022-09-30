@@ -5,14 +5,17 @@ import { SearchOutlined } from "@ant-design/icons";
 import Highlighter from "react-highlight-words";
 import { Link, useNavigate } from "react-router-dom";
 import NoticeDetail from "./NoticeDetail";
+import AdminLevel from "../components/AdminLevel";
 
-const Survey = () => {
+const Admin = () => {
   const [searchText, setSearchText] = useState("");
   const [searchedColumn, setSearchedColumn] = useState("");
   const searchInput = useRef(null);
 
   const [visible, setVisible] = useState(false);
 
+  const user = JSON.parse(localStorage.getItem("user"));
+  console.log(user.response.level, "LEVELCHECK");
   const data = [
     {
       key: "1",
@@ -189,7 +192,7 @@ const Survey = () => {
   return (
     <>
       <div className="m-2 md:m-10 mt-24 p-2 md:p-10 bg-white rounded-3xl ">
-        <Header category="Pages" title="관리자 관리" />
+        <Header category="Pages" title="그룹 관리" />
         <Table
           columns={columns}
           dataSource={data}
@@ -202,6 +205,8 @@ const Survey = () => {
           })}
         />
       </div>
+      {/* <AdminLevel /> */}
+      {user.response.level === 0 ? <AdminLevel /> : <></>}
       <Modal
         title="선택하신 부서에 대한 요청이 성공되었습니다 !"
         centered
@@ -217,4 +222,4 @@ const Survey = () => {
   );
 };
 
-export default Survey;
+export default Admin;
