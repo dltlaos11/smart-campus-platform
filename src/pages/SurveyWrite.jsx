@@ -4,10 +4,7 @@ import { Input } from "antd";
 import SurveyDetailList from "../components/SurveyDetailList";
 import MAIN_DATA from "../components/MainData";
 
-// import Servey_Input from "../components/Survey_Input";
-// import Servey_textarea from "../components/Survey_textarea";
-// import Servey_Radio from "../components/Survey_Radio";
-// import Servey_CheckBox from "../components/Survey_CheckBox";
+import SurveyAll from "../components/SurveyAll";
 
 const SurveyWrite = () => {
   const { TextArea } = Input;
@@ -27,38 +24,38 @@ const SurveyWrite = () => {
   flex-col
   `;
 
-  const [countList, setCountList] = useState([0]);
+  // const [countList, setCountList] = useState([0]);
 
-  let countArr = [...countList];
-  let counter = countArr.slice(-1)[0];
-  const [content, setContent] = useState();
+  // const [content, setContent] = useState();
 
-  const onClick = (e) => {
-    const { name } = e.target;
-    console.log(name);
-    setContent(name);
+  let [story, setStory] = useState([<SurveyAll />]);
 
-    counter += 1;
-    countArr.push(counter); // index 사용 X
-    // countArr[counter] = counter	// index 사용 시 윗줄 대신 사용
-    setCountList(countArr);
-    console.log(countList);
+  let countArr = [...story];
+
+  // let counter = countArr.slice(-1)[0];
+
+  const addStory = () => {
+    setStory(story.concat(<SurveyAll />));
   };
+
+  // const onClick = (e) => {
+  //   const { name } = e.target;
+  //   console.log(name);
+  //   setContent(name);
+
+  //   counter += 1;
+  //   countArr.push(counter); // index 사용 X
+  //   // countArr[counter] = counter	// index 사용 시 윗줄 대신 사용
+  //   setCountList(countArr);
+  //   console.log(countList);
+  // };
 
   const onClickDelete = () => {
     countArr.pop();
-    setCountList(countArr);
-    console.log(countList);
+    setStory(countArr);
   }; // 컴포넌트 안에 버튼만들기
 
-  // const selectComponent = {
-  //   input: <Servey_Input />,
-  //   textarea: <Servey_textarea />,
-  //   radio: <Servey_Radio />,
-  //   check: <Servey_CheckBox />,
-  // };
-
-  console.log("재실행 Surtvey_write");
+  console.log("재실행 Surtvey_write", story);
 
   return (
     <>
@@ -76,29 +73,7 @@ const SurveyWrite = () => {
               삭제
             </button>
           </div>
-          <div className="fixed flex flex-col right-[100px]">
-            {/* <Circle className="top-[80px] bg-blue-700" onClick={onClick}>
-              추가
-            </Circle>
-            <Circle className="top-[200px] bg-red-700" onClick={onClickDelete}>
-              삭제
-            </Circle>
-            <Circle className="top-[320px] bg-blue-700" onClick={onClick}>
-              One
-            </Circle>
-            <Circle className="top-[440px] bg-blue-700" onClick={onClick}>
-              One
-            </Circle> */}
-            {MAIN_DATA.map((data) => {
-              return (
-                <Circle onClick={onClick} name={data.name} key={data.id}>
-                  {data.text}
-                </Circle>
-              );
-            })}
-
-            {/* {content && <Content>{selectComponent[content]}</Content>} */}
-          </div>
+          <div className="fixed flex flex-col right-[100px]"></div>
           <div className=" h-16 flex">
             <div className="flex flex-row my-auto w-full text-center border border-gray-400">
               <div className="flex basis-2/12 bg-gray-200">
@@ -112,14 +87,15 @@ const SurveyWrite = () => {
           <div className="text-xl font-bold mb-2">내용</div>
           <div className=" h-good"></div>
 
-          <CreateListDiv>
-            <SurveyDetailList
-              content={content}
-              countList={countList}
-            ></SurveyDetailList>
-          </CreateListDiv>
+          {story}
           <div className=" my-2 flex justify-end">
-            <button className="w-28 p-2 text-white bg-red-800 shadow-lg rounded">
+            <button
+              className="w-28 p-2 text-white bg-red-800 shadow-lg rounded"
+              onClick={() => {
+                addStory();
+                console.log(story);
+              }}
+            >
               등록
             </button>
           </div>
