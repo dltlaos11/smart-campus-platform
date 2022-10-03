@@ -107,15 +107,7 @@ const GroupList = () => {
       >
         {children}
       </Select>
-      <button
-        onClick={() => {
-          // navigate("/NoticeWrite");
-          setVisible(true);
-        }}
-        className="bg-red-800 shadow-lg mt-8 text-center rounded-2xl text-white p-3 w-32 md:ml-[1550px]"
-      >
-        부서 추가, modal 파일 완성 후
-      </button>
+
       <Modal
         title="선택하신 부서에 대한 요청이 성공되었습니다 !"
         centered
@@ -127,6 +119,17 @@ const GroupList = () => {
         <p>선택하신 부서에 대한 신청이 요청되었습니다.</p>
         <p>관리자 승인을 받을 떄 까지 기다려주세요🙂</p>
       </Modal>
+      <div className="h-24 flex justify-end w-full">
+        <button
+          onClick={() => {
+            // navigate("/NoticeWrite");
+            setVisible(true);
+          }}
+          className="bg-red-800 shadow-lg mt-8 text-center rounded-2xl text-white p-3 w-32 md:ml-[1600px]"
+        >
+          부서 신청하기
+        </button>
+      </div>
     </div>
   );
 };
