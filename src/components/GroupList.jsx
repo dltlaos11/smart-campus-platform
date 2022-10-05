@@ -69,7 +69,13 @@ const GroupList = () => {
         renderItem={(item) => (
           <List.Item
             key={item.group_name}
-            extra={<img width={200} alt="logo" src="../data/avatar.png" />}
+            extra={
+              <img
+                width={200}
+                alt="logo"
+                src="https://raw.githubusercontent.com/dltlaos11/smart-campus-platform/master/src/data/dummy.png"
+              />
+            }
           >
             <List.Item.Meta
               avatar={<Avatar src={item.group_image} />}
