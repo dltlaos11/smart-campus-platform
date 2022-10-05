@@ -70,11 +70,7 @@ const GroupList = () => {
           <List.Item
             key={item.group_name}
             extra={
-              <img
-                width={200}
-                alt="logo"
-                src="https://raw.githubusercontent.com/dltlaos11/smart-campus-platform/master/src/data/dummy.png"
-              />
+              <img width={200} alt="logo" src="../../public/logo192.png" />
             }
           >
             <List.Item.Meta

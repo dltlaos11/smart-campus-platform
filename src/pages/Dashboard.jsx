@@ -86,7 +86,7 @@ const Dashboard = () => {
                     <img
                       width={272}
                       alt="logo"
-                      src="https://raw.githubusercontent.com/dltlaos11/smart-campus-platform/master/src/data/dummy.png"
+                      src="../../public/logo192.png"
                     />
                   }
                 >
