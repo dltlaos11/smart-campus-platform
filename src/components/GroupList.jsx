@@ -69,13 +69,7 @@ const GroupList = () => {
         renderItem={(item) => (
           <List.Item
             key={item.group_name}
-            extra={
-              <img
-                width={272}
-                alt="logo"
-                src="https://gw.alipayobjects.com/zos/rmsportal/mqaQswcyDLcXyDKnZfES.png"
-              />
-            }
+            extra={<img width={200} alt="logo" src="../data/avatar.png" />}
           >
             <List.Item.Meta
               avatar={<Avatar src={item.group_image} />}
