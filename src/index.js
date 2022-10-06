@@ -6,11 +6,14 @@ import App from "./App";
 import Login from "./components/Login";
 import { ContextProvider } from "./contexts/ContextProvider";
 import { NoticeProvider } from "./contexts/NoticeProvider";
+import { SurveyProvider } from "./contexts/SurveyProvicer";
 ReactDOM.render(
   <ContextProvider>
     <NoticeProvider>
-      {/* <App /> */}
-      <Login />
+      <SurveyProvider>
+        {/* <App /> */}
+        <Login />
+      </SurveyProvider>
     </NoticeProvider>
   </ContextProvider>,
   document.getElementById("root")

@@ -22,15 +22,17 @@ export const ContextProvider = ({ children }) => {
 
   let [noticedata, setNoticedata] = useState([]);
 
+  let [surveydata, setSurveydata] = useState([]);
+
   const setMode = (e) => {
     setCurrentMode(e.target.value);
     localStorage.setItem("themeMode", e.target.value);
   };
 
-  const setColor = (color) => {
-    setCurrentColor(color);
-    localStorage.setItem("colorMode", color);
-  };
+  // const setColor = (color) => {
+  //   setCurrentColor("bg-red-800");
+  //   localStorage.setItem("colorMode", color);
+  // };
 
   const handleClick = (clicked) =>
     setIsClicked({ ...initialState, [clicked]: true });
@@ -58,11 +60,13 @@ export const ContextProvider = ({ children }) => {
         setCurrentColor,
         setCurrentMode,
         setMode,
-        setColor,
+        // setColor,
         themeSettings,
         setThemeSettings,
         owndata,
         setOwndata,
+        surveydata,
+        setSurveydata,
       }}
     >
       {children}

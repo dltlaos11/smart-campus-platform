@@ -13,7 +13,7 @@ import AuthService from "../api/auth.service";
 import GroupService from "../api/group.service";
 
 const UserProfile = () => {
-  const { currentColor } = useStateContext();
+  let { currentColor } = useStateContext();
   let { owndata, setOwndata } = useStateContext();
   let { isclick, setIsclick } = useStateContext();
 
@@ -99,7 +99,7 @@ const UserProfile = () => {
               renderItem={(item) => (
                 <List.Item key={item.title}>
                   <List.Item.Meta
-                    avatar={<Avatar src="https://joeschmoe.io/api/v1/random" />}
+                    avatar={<Avatar src="" />}
                     title={
                       <a onClick={() => setIsclick(item)}>{item.group_name}</a>
                     }

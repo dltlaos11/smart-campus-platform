@@ -122,7 +122,7 @@ const NoticeDetail = () => {
           <hr className="border-gray-400" />
           <div className="h-24 flex justify-end w-full">
             <button
-              className="bg-red-800 shadow-lg my-auto text-center rounded-2xl text-white p-3 w-32 mr-7"
+              className="bg-red-600 shadow-lg my-auto text-center rounded-2xl text-white p-3 w-32 mr-7"
               onClick={() => {
                 navigate("/noticeEdit");
               }}
@@ -130,7 +130,7 @@ const NoticeDetail = () => {
               수정
             </button>
             <button
-              className="bg-red-800 shadow-lg my-auto text-center rounded-2xl text-white p-3 w-32"
+              className="bg-red-600 shadow-lg my-auto text-center rounded-2xl text-white p-3 w-32"
               onClick={() => {
                 deleteNotice(isclick?.group_id, noticeDetailId);
                 navigate("/");

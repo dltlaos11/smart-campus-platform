@@ -15,7 +15,7 @@ import SurveyCheckBox from "./SurveyCheckBox";
 import SurveyInput from "./SurveyInput";
 
 const SurveyAll = () => {
-  let [buttonText, setButtonText] = useState("Button");
+  let [buttonText, setButtonText] = useState("질문 종류");
 
   console.log("재실행 Surtvey_input", buttonText);
 

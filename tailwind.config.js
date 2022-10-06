@@ -4,6 +4,8 @@ module.exports = {
   theme: {
     fontFamily: {
       display: ["Open Sans", "sans-serif"],
+      poppins: ["Poppins", "sans-serif"],
+      adelia: ["ADELIA", "cursive"],
       body: ["Open Sans", "sans-serif"],
     },
     extend: {

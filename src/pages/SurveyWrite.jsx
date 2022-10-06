@@ -68,7 +68,7 @@ const SurveyWrite = () => {
               onClick={() => {
                 onClickDelete();
               }}
-              className="bg-red-800 shadow-lg my-auto text-center rounded-2xl text-white p-3 w-32 mr-7"
+              className="bg-red-600 shadow-lg my-auto text-center rounded-2xl text-white p-3 w-32 mr-7"
             >
               삭제
             </button>
@@ -79,9 +79,9 @@ const SurveyWrite = () => {
               <div className="flex basis-2/12 bg-gray-200">
                 <div className="m-auto border-l">제목</div>
               </div>
-              <form className="basis-10/12 border-gray-400 border-l">
+              <div className="basis-10/12 border-gray-400 border-l">
                 <input className="w-full outline-none h-10 ml-3" />
-              </form>
+              </div>
             </div>
           </div>
           <div className="text-xl font-bold mb-2">내용</div>
@@ -90,7 +90,7 @@ const SurveyWrite = () => {
           {story}
           <div className=" my-2 flex justify-end">
             <button
-              className="w-28 p-2 text-white bg-red-800 shadow-lg rounded"
+              className="w-28 p-2 text-white bg-red-600 shadow-lg rounded"
               onClick={() => {
                 addStory();
                 console.log(story);

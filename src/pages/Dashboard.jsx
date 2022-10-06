@@ -52,6 +52,10 @@ const Dashboard = () => {
     intro: `${owndata[i]?.intro}`,
   }));
 
+  const goToTop = () => {
+    window.scrollTo({ top: 0, behavior: "smooth" });
+  };
+
   return (
     <>
       <div className="m-2 md:m-10 mt-24 p-2 md:p-10 bg-white rounded-3xl bg-slate-600">
@@ -67,11 +71,11 @@ const Dashboard = () => {
         </div>
         <div className="grid grid-cols-1  gap-4  bg-white rounded-3xl md:m-10">
           <div className="m-2 md:m-10 mt-24  md:p-10 bg-white rounded-3xl ">
-            <Header title="부서관리" />
+            <Header title="내 그룹목록" />
 
             <List
               itemLayout="vertical"
-              size="large"
+              size="small"
               pagination={{
                 onChange: (page) => {
                   console.log(page);
@@ -86,14 +90,21 @@ const Dashboard = () => {
                     <img
                       width={272}
                       alt="logo"
-                      src="../../public/logo192.png"
+                      src="https://raw.githubusercontent.com/dltlaos11/smart-campus-platform/master/src/data/dummy.png"
                     />
                   }
                 >
                   <List.Item.Meta
                     avatar={<Avatar src={item.group_image} />}
                     title={
-                      <a onClick={() => setIsclick(item)}>{item.group_name}</a>
+                      <a
+                        onClick={() => {
+                          setIsclick(item);
+                          goToTop();
+                        }}
+                      >
+                        {item.group_name}
+                      </a>
                     }
                     description={item.description}
                   />

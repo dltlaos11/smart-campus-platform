@@ -163,7 +163,7 @@ const AdminLevel = () => {
 
   const columns = [
     {
-      title: "user_id",
+      title: "교번",
       dataIndex: "user_id",
       width: "15%",
       editable: false,
@@ -181,7 +181,7 @@ const AdminLevel = () => {
       editable: false,
     },
     {
-      title: "부서",
+      title: "그룹",
       dataIndex: "department",
       width: "40%",
       editable: false,

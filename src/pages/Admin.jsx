@@ -1,4 +1,4 @@
-import React, { useRef, useState } from "react";
+import React, { useRef, useState, useEffect } from "react";
 import { Header } from "../components";
 import { Button, Input, Space, Table, Modal } from "antd";
 import { SearchOutlined } from "@ant-design/icons";
@@ -6,60 +6,99 @@ import Highlighter from "react-highlight-words";
 import { Link, useNavigate } from "react-router-dom";
 import NoticeDetail from "./NoticeDetail";
 import AdminLevel from "../components/AdminLevel";
+import groupService from "../api/group.service";
 
 const Admin = () => {
   const [searchText, setSearchText] = useState("");
   const [searchedColumn, setSearchedColumn] = useState("");
   const searchInput = useRef(null);
 
-  const [visible, setVisible] = useState(false);
+  let [visible, setVisible] = useState(false);
 
   const user = JSON.parse(localStorage.getItem("user"));
+  let [adminGroupdata, setAdminGroupdata] = useState("");
+  let [clickCell, setClickCell] = useState("");
+  let [userId, setUserId] = useState("");
   console.log(user.response.level, "LEVELCHECK");
-  const data = [
-    {
-      key: "1",
-      index: "1",
-      name: "김석삼",
-      title: "안녕하세요 이버",
-    },
-    {
-      key: "2",
-      index: "2",
-      name: "감사머",
-      title: "2번 글입니다.세요 이버",
-    },
-    {
-      key: "3",
-      index: "3",
-      name: "오이지",
-      title: "3번 글임. 세요 이버버이니니다",
-    },
-    {
-      key: "4",
-      index: "4",
-      name: "안영사",
-      title: "4번 글입니다.세요 이버",
-    },
-    {
-      key: "5",
-      index: "1",
-      name: "김석삼",
-      title: "안녕하세요 이버",
-    },
-    {
-      key: "6",
-      index: "1",
-      name: "김석삼",
-      title: "안녕하세요 이버",
-    },
-    {
-      key: "7",
-      index: "1",
-      name: "김석삼",
-      title: "안녕하세요 이버",
-    },
-  ];
+
+  useEffect(() => {
+    const getGroupCall = async () => {
+      await groupService
+        .getAdminGroupCallList()
+        .then((res) => res.data.response)
+        .then((body) => {
+          body.forEach((e) => {
+            if (!e["key"]) {
+              e["key"] = e.admin_group_id;
+            }
+            // console.log(body, "GOOD!~");
+            setAdminGroupdata([...body]);
+          });
+        });
+    };
+    getGroupCall();
+    console.log("다시해보자~~~~~~~~~~~~~~~~", adminGroupdata);
+  }, [visible + adminGroupdata.length]);
+
+  const handleAdminGroupAccept = async () => {
+    try {
+      await groupService.putAdminGroupAccept(clickCell).then(
+        (res) => {
+          console.log(res);
+        },
+        (err) => {
+          console.log(err);
+        }
+      );
+    } catch (err) {
+      console.log(err);
+    }
+  };
+
+  // const data = [
+  //   {
+  //     key: "1",
+  //     index: "1",
+  //     name: "김석삼",
+  //     title: "안녕하세요 이버",
+  //   },
+  //   {
+  //     key: "2",
+  //     index: "2",
+  //     name: "감사머",
+  //     title: "2번 글입니다.세요 이버",
+  //   },
+  //   {
+  //     key: "3",
+  //     index: "3",
+  //     name: "오이지",
+  //     title: "3번 글임. 세요 이버버이니니다",
+  //   },
+  //   {
+  //     key: "4",
+  //     index: "4",
+  //     name: "안영사",
+  //     title: "4번 글입니다.세요 이버",
+  //   },
+  //   {
+  //     key: "5",
+  //     index: "1",
+  //     name: "김석삼",
+  //     title: "안녕하세요 이버",
+  //   },
+  //   {
+  //     key: "6",
+  //     index: "1",
+  //     name: "김석삼",
+  //     title: "안녕하세요 이버",
+  //   },
+  //   {
+  //     key: "7",
+  //     index: "1",
+  //     name: "김석삼",
+  //     title: "안녕하세요 이버",
+  //   },
+  // ];
 
   const handleSearch = (selectedKeys, confirm, dataIndex) => {
     confirm();
@@ -167,23 +206,23 @@ const Admin = () => {
   const columns = [
     {
       title: "Index",
-      dataIndex: "index",
-      key: "index",
+      dataIndex: "admin_group_id",
+      key: "admin_group_id",
+      width: "10%",
+      ...getColumnSearchProps("admin_group_id"),
+    },
+    {
+      title: "교번",
+      dataIndex: "user_id",
+      key: "user_id",
+      width: "10%",
+      ...getColumnSearchProps("user_id"),
+    },
+    {
+      title: "그룹",
+      dataIndex: "group_name",
+      key: "group_name",
       width: "15%",
-    },
-    {
-      title: "이름",
-      dataIndex: "name",
-      key: "name",
-      width: "20%",
-      ...getColumnSearchProps("name"),
-    },
-    {
-      title: "admin_group_id",
-      dataIndex: "title",
-      key: "title",
-      width: "30%",
-      ...getColumnSearchProps("title"),
     },
   ];
 
@@ -195,12 +234,15 @@ const Admin = () => {
         <Header category="Pages" title="그룹 관리" />
         <Table
           columns={columns}
-          dataSource={data}
+          dataSource={adminGroupdata}
           scroll={{ y: 300, x: true }}
           onRow={(record, recordIndex) => ({
             // onClick: event => { console.log(event.target, event.target.className, record, recordIndex) }
-            onClick: () => {
+            onClick: (event) => {
               setVisible(true);
+              console.log(record.user_id, adminGroupdata.length);
+              setUserId(record.user_id);
+              setClickCell(record.admin_group_id);
             },
           })}
         />
@@ -208,15 +250,18 @@ const Admin = () => {
       {/* <AdminLevel /> */}
       {user.response.level === 0 ? <AdminLevel /> : <></>}
       <Modal
-        title="선택하신 부서에 대한 요청이 성공되었습니다 !"
+        title="그룹 승인하시겠습니까?"
         centered
         visible={visible}
-        onOk={() => setVisible(false)} // 📗
+        onOk={() => {
+          setVisible(false);
+          console.log(clickCell, "@@@@@");
+          handleAdminGroupAccept();
+        }} // 📗
         onCancel={() => setVisible(false)}
         width={700}
       >
-        <p>선택하신 부서에 대한 신청이 요청되었습니다.</p>
-        <p>관리자 승인을 받을 떄 까지 기다려주세요🙂</p>
+        <p>{userId}에게 해당 그룹을 승인하시려면 OK를 클릭해주세요🙂</p>
       </Modal>
     </>
   );

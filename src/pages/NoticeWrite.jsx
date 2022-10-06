@@ -18,6 +18,7 @@ import {
 } from "antd";
 import { CKEditor } from "@ckeditor/ckeditor5-react";
 import ClassicEditor from "@ckeditor/ckeditor5-build-classic";
+
 import noticeService from "../api/notice.service";
 import pushService from "../api/push.service";
 
@@ -88,21 +89,21 @@ const NoticeWrite = () => {
             <div className="flex basis-2/12 bg-gray-200">
               <div className="m-auto border-l">제목</div>
             </div>
-            <form className="basis-10/12 border-gray-400 border-l">
+            <div className="basis-10/12 border-gray-400 border-l">
               <input
                 className="w-full outline-none h-10 ml-3"
                 onChange={(e) => {
                   setTitle(e.currentTarget.value);
                 }}
               />
-            </form>
+            </div>
           </div>
         </div>
         <div className="text-xl font-bold mb-2">내용</div>
         <div className=" h-good">
           <CKEditor
             editor={ClassicEditor}
-            data="<p>Hello from CKEditor 5!</p>"
+            data=""
             onReady={(editor) => {
               // You can store the "editor" and use when it is needed.
               console.log("Editor is ready to use!", editor);
@@ -124,10 +125,10 @@ const NoticeWrite = () => {
             }}
           />
         </div>
-        {/* <div dangerouslySetInnerHTML={ {__html:codes}}></div> */}
+        {/* <div dangerouslySetInnerHTML={{ __html: content }}></div> */}
         <div className="">
           {" "}
-          <Upload.Dragger
+          {/* <Upload.Dragger 파일 업로드
             action={"http://localhost:3000/NoticeWrite/"}
             multiple
             listType="picture"
@@ -140,7 +141,7 @@ const NoticeWrite = () => {
             Drag files here OR
             <br />
             <Button>Click Upload</Button>
-          </Upload.Dragger>
+          </Upload.Dragger> */}
         </div>
         <br />
         <h1 className="text-2xl font-bold">알림 작성</h1>
@@ -149,14 +150,14 @@ const NoticeWrite = () => {
             <div className="flex basis-2/12 bg-gray-200">
               <div className="m-auto border-l">제목</div>
             </div>
-            <form className="basis-10/12 border-gray-400 border-l">
+            <div className="basis-10/12 border-gray-400 border-l">
               <input
                 className="w-full outline-none h-10 ml-3"
                 onChange={(e) => {
                   setPushTitle(e.currentTarget.value);
                 }}
               />
-            </form>
+            </div>
           </div>
         </div>
         <div className="text-xl font-bold mb-2">내용</div>
@@ -204,7 +205,7 @@ const NoticeWrite = () => {
         <br />
         <div className=" my-2 flex justify-end">
           <button
-            className="w-28 p-2 text-white bg-red-800 shadow-lg rounded"
+            className="w-28 p-2 text-white bg-red-600 shadow-lg rounded"
             onClick={() => {
               handleNoticePost();
               handlePushPost();

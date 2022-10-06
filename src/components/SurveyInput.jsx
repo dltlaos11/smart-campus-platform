@@ -18,7 +18,7 @@ const SurveyInput = () => {
         required
       />
       <div>
-        <Input showCount maxLength={100} />
+        <Input showCount disabled maxLength={100} />
       </div>
     </>
   );

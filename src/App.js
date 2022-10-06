@@ -76,7 +76,7 @@ const App = () => {
                 <Route path="/surveyDetail/:id" element={<SurveyDetail />} />
                 {/* <Route path="/chatbot" element={<Chatbot />} /> */}
                 <Route path="/admin" element={<Admin />} />
-                <Route path="/map" element={<Map />} />
+                {/* <Route path="/map" element={<Map />} /> */}
 
                 {/* Charts */}
 

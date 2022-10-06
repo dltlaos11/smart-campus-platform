@@ -18,7 +18,7 @@ const SurveyTextarea = () => {
         required
       />
       <div>
-        <TextArea showCount maxLength={100} />
+        <TextArea showCount disabled maxLength={100} />
       </div>
     </>
   );

@@ -8,11 +8,12 @@ import AuthService from "../api/auth.service";
 import NoticeService from "../api/notice.service";
 
 const Login = () => {
-  const [user_id, setId] = useState("123456");
-  const [password, setPw] = useState("1q2w3e4r~!");
+  const [user_id, setId] = useState("");
+  const [password, setPw] = useState("");
 
   const { isLoggedIn, setIsLoggedIn } = useStateContext();
   const [visible, setVisible] = useState(false);
+  const [error, setError] = useState("");
 
   const user = JSON.parse(localStorage.getItem("user"));
   // console.log(user.response.level)
@@ -31,7 +32,9 @@ const Login = () => {
           console.log(res);
         },
         (err) => {
-          console.log(err);
+          console.log(err.response.data.error.message);
+          setError(err.response.data.error.message);
+          setVisible(true);
         }
       );
     } catch (err) {
@@ -57,7 +60,7 @@ const Login = () => {
                   <div className="w-1/2 px-4">
                     <div className="relative flex flex-col min-w-0 break-words w-full mb-6 shadow-lg rounded-lg bg-white border-0">
                       <div className="rounded-t mb-0 px-6 py-6">
-                        <div className="text-center mb-3">
+                        <div className="font-poppins text-gray-600 body-font font-medium  text-center text-[50px] mb-3">
                           Smart Campus
                           {/* <img
                         className="m-auto"
@@ -127,7 +130,7 @@ const Login = () => {
                         </a>
                       </div>
                       <div className="w-1/3 text-center">
-                        <a
+                        {/* <a
                           target="_blank"
                           rel="noreferrer"
                           className="text-slate-700"
@@ -138,15 +141,17 @@ const Login = () => {
                           <small className=" hover:text-red-700 hover:text-base hover:font-extrabold transition-all duration-150">
                             신규 관리자 그룹 신청
                           </small>
-                        </a>
+                        </a> */}
                         <Modal
-                          title="Modal 1000px width"
+                          title="로그인 실패"
                           centered
                           visible={visible}
                           onOk={() => setVisible(false)}
                           onCancel={() => setVisible(false)}
                           width={1000}
-                        ></Modal>
+                        >
+                          {error}
+                        </Modal>
                       </div>
                       <div className="w-1/3 text-right">
                         <a

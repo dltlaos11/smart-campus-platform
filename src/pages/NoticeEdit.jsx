@@ -78,7 +78,7 @@ const NoticeEdit = () => {
             <div className="flex basis-2/12 bg-gray-200">
               <div className="m-auto border-l">제목</div>
             </div>
-            <form className="basis-10/12 border-gray-400 border-l">
+            <div className="basis-10/12 border-gray-400 border-l">
               <input
                 value={noticeTitle}
                 className="w-full outline-none h-10 ml-3"
@@ -87,7 +87,7 @@ const NoticeEdit = () => {
                   //   setTitle(e.currentTarget.value);
                 }}
               />
-            </form>
+            </div>
           </div>
         </div>
         <div className="text-xl font-bold mb-2">내용</div>
@@ -141,14 +141,14 @@ const NoticeEdit = () => {
             <div className="flex basis-2/12 bg-gray-200">
               <div className="m-auto border-l">제목</div>
             </div>
-            <form className="basis-10/12 border-gray-400 border-l">
+            <div className="basis-10/12 border-gray-400 border-l">
               <input
                 className="w-full outline-none h-10 ml-3"
                 onChange={(e) => {
                   //   setTitle(e.currentTarget.value);
                 }}
               />
-            </form>
+            </div>
           </div>
         </div>
         <div className="text-xl font-bold mb-2">내용</div>
@@ -179,7 +179,7 @@ const NoticeEdit = () => {
         <br />
         <div className=" my-2 flex justify-end">
           <button
-            className="w-28 p-2 text-white bg-red-800 shadow-lg rounded"
+            className="w-28 p-2 text-white bg-red-600 shadow-lg rounded"
             onClick={() => {
               handlePost();
               navigate("/");

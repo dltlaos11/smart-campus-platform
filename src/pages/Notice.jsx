@@ -19,6 +19,7 @@ const Notice = () => {
 
   let { isclick, setIsclick } = useStateContext();
   let { noticedata, setNoticedata } = useStateContext();
+
   // const data = [
   //   {
   //     key: 1,
@@ -51,11 +52,15 @@ const Notice = () => {
         .then((res) => res.data.response)
         .then(
           (body) => {
+            console.log(body.length, "확이해보자~~");
+            if (body.length === 0) {
+              setNoticedata([]);
+            }
             body.forEach((e) => {
               if (!e["key"]) {
                 e["key"] = e.notice_id;
                 e["create_time"] = e["create_time"].slice(0, 10);
-                e["name"] = "주용준"; // name 없어서 예비
+                e["name"] = "관리자"; // name 없어서 예비
                 setNoticedata([...body]); //🟢
               }
             });
@@ -206,12 +211,12 @@ const Notice = () => {
 
   return (
     <>
-      <div className="m-2 md:m-10 mt-24 p-2 md:p-10 bg-white rounded-3xl ">
+      <div className="m-2 md:m-10 h-[700px] mt-24 p-2 md:p-10 bg-white rounded-3xl ">
         <Header category="Pages" title="공지사항" />
         <Table
           columns={columns}
           dataSource={noticedata}
-          scroll={{ y: 300, x: true }}
+          scroll={{ y: 300 }}
           onRow={(record, recordIndex) => ({
             // onClick: event => { console.log(event.target, event.target.className, record, recordIndex) }
             onClick: (event) => {
@@ -225,7 +230,7 @@ const Notice = () => {
             onClick={() => {
               navigate("/noticeWrite");
             }}
-            className="bg-red-800 shadow-lg my-auto text-center rounded-2xl text-white p-3 w-32 mr-7"
+            className="bg-red-600 shadow-lg my-auto text-center rounded-2xl text-white p-3 w-32 mr-7"
           >
             글 등록
           </button>

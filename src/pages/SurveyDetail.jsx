@@ -25,10 +25,10 @@ const SurveyDetail = () => {
           </div>
           <hr className="border-gray-400" />
           <div className="h-24 flex justify-end w-full">
-            <button className="bg-red-800 shadow-lg my-auto text-center rounded-2xl text-white p-3 w-32 mr-7">
+            <button className="bg-red-600 shadow-lg my-auto text-center rounded-2xl text-white p-3 w-32 mr-7">
               수정
             </button>
-            <button className="bg-red-800 shadow-lg my-auto text-center rounded-2xl text-white p-3 w-32">
+            <button className="bg-red-600 shadow-lg my-auto text-center rounded-2xl text-white p-3 w-32">
               삭제
             </button>
           </div>

@@ -14,7 +14,7 @@ const GroupList = () => {
   useEffect(() => {
     const GroupAdmin = async () => {
       await groupService
-        .getGroupOwn()
+        .getGroupAll()
         .then((res) => res.data.response)
         .then((body) => {
           console.log(body);
@@ -27,6 +27,20 @@ const GroupList = () => {
       GroupAdmin();
     }
   }, []);
+  const handleGroupCall = async (e) => {
+    try {
+      await groupService.postAdminGroupCall(selectGroup[0]).then(
+        (res) => {
+          console.log(res);
+        },
+        (err) => {
+          console.log(err);
+        }
+      );
+    } catch (err) {
+      console.log(err);
+    }
+  };
 
   const data1 = Array.from({
     length: owndata.length, // 값 받으면 _ 부분 처리 가능할지도?
@@ -54,7 +68,7 @@ const GroupList = () => {
 
   return (
     <div className="m-2 md:m-10 mt-24 p-2 md:p-10 bg-slate-50 rounded-3xl ">
-      <Header title="전체 부서목록" />
+      <Header title="전체 그룹목록" />
 
       <List
         itemLayout="vertical"
@@ -70,7 +84,11 @@ const GroupList = () => {
           <List.Item
             key={item.group_name}
             extra={
-              <img width={200} alt="logo" src="../../public/logo192.png" />
+              <img
+                width={200}
+                alt="logo"
+                src="https://raw.githubusercontent.com/dltlaos11/smart-campus-platform/master/src/data/dummy.png"
+              />
             }
           >
             <List.Item.Meta
@@ -120,10 +138,11 @@ const GroupList = () => {
           onClick={() => {
             // navigate("/NoticeWrite");
             setVisible(true);
+            handleGroupCall();
           }}
-          className="bg-red-800 shadow-lg mt-8 text-center rounded-2xl text-white p-3 w-32 md:ml-[1600px]"
+          className="bg-red-600 shadow-lg mt-8 text-center rounded-2xl text-white p-3 w-32 md:ml-[1600px]"
         >
-          부서 신청하기
+          그룹 신청하기
         </button>
       </div>
     </div>
