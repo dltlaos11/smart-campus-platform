@@ -17,13 +17,11 @@ const Login = () => {
 
   const user = JSON.parse(localStorage.getItem("user"));
   // console.log(user.response.level)
-  const handleLogin = async (e) => {
-    e.preventDefault();
+  const handleLogin = async () => {
     try {
       await AuthService.login(user_id, password).then(
         (res) => {
           // window.location.reload();
-
           if (user && user.response.jwt_token) {
             setIsLoggedIn(true);
           } else {
