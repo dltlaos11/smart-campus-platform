@@ -34,7 +34,7 @@ const Sidebar = () => {
               className="items-center gap-3 ml-3 mt-4 flex text-xl font-extrabold tracking-tight dark:text-white text-slate-900"
             >
               {/* <SiShopware /> <span>스마트 캠퍼스</span> */}
-               <img src="https://raw.githubusercontent.com/dltlaos11/smart-campus-platform/master/src/img/logo.png"></img> 
+               <img src="https://raw.githubusercontent.com/dltlaos11/smart-campus-platform/master/src/img/logo.png"></img>  
             </Link>
             {/* <TooltipComponent content="Menu" position="BottomCenter">
               <button
