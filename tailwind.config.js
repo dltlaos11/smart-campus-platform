@@ -7,6 +7,7 @@ module.exports = {
       poppins: ["Poppins", "sans-serif"],
       adelia: ["ADELIA", "cursive"],
       body: ["Open Sans", "sans-serif"],
+      Mulish: ["Mulish", "sans-serif"],
     },
     extend: {
       fontSize: {

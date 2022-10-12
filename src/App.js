@@ -2,7 +2,7 @@ import React, { useEffect, useState } from "react";
 import { BrowserRouter, Routes, Route } from "react-router-dom";
 import { FiSettings } from "react-icons/fi";
 import { TooltipComponent } from "@syncfusion/ej2-react-popups";
-import "antd/dist/antd.css";
+import "antd/dist/antd.min.css";
 import { Navbar, Footer, Sidebar, ThemeSettings } from "./components";
 import {
   Dashboard,

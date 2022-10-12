@@ -21,7 +21,7 @@ const Button = ({
         setIsClicked(initialState);
         console.log(size, width, bgHoverColor);
         // localStorage.removeItem("user");
-        window.location.replace("/");
+        // window.location.replace("/");
       }}
       style={{ backgroundColor: bgColor, color, borderRadius }}
       className={`text-${size} p-3 w-${width} hover:drop-shadow-xl hover:bg-${bgHoverColor}`}

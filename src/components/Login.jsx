@@ -15,14 +15,25 @@ const Login = () => {
   const [visible, setVisible] = useState(false);
   const [error, setError] = useState("");
 
-  const user = JSON.parse(localStorage.getItem("user"));
+  let user = JSON.parse(localStorage.getItem("user"));
   // console.log(user.response.level)
+
+  useEffect(() => {
+  let user = JSON.parse(localStorage.getItem("user"));
+  if (user !== null) {
+    setIsLoggedIn(true);
+  }
+  // else if (user === null){
+    // window.location.replace("/");
+  // }
+  
+  },[window.localStorage.length])
   const handleLogin = async () => {
     try {
       await AuthService.login(user_id, password).then(
         (res) => {
           // window.location.reload();
-          if (user && user.response.jwt_token) {
+          if (res && res.response.jwt_token) {
             setIsLoggedIn(true);
           } else {
             setIsLoggedIn(false);

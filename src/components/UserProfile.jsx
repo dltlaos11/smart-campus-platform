@@ -113,6 +113,10 @@ const UserProfile = () => {
         </div>
       </div>
       <div className="mt-5">
+        <div onClick={()=>{
+          window.localStorage.removeItem("user")
+          window.location.replace("/");
+          }}>
         <Button
           color="white"
           bgColor={currentColor}
@@ -120,6 +124,7 @@ const UserProfile = () => {
           borderRadius="10px"
           width="full"
         />
+        </div>
       </div>
     </div>
   );
