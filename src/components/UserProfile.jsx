@@ -17,6 +17,8 @@ const UserProfile = () => {
   let { owndata, setOwndata } = useStateContext();
   let { isclick, setIsclick } = useStateContext();
 
+  let { userName, setUserName } = useStateContext();
+
   const user = JSON.parse(localStorage.getItem("user"));
   console.log(isclick, "141414", owndata.length);
   useEffect(() => {
@@ -36,7 +38,7 @@ const UserProfile = () => {
       getuserprofile();
     }
   }, []);
-  console.log(owndata, "OWNDATA");
+  console.log(user.name, "OWNDATA");
 
   return (
     <div className="nav-item absolute right-1 top-16 bg-white dark:bg-[#42464D] p-8 rounded-lg w-96">
@@ -58,14 +60,14 @@ const UserProfile = () => {
         />
         <div>
           <p className="font-semibold text-xl dark:text-gray-200">
-            {isclick?.group_name}
+            {userName}
             {/* 주용준{console.log(owndata[0]?.group_name, "22")} 옵셔널체이닝*/}
             {/* {isclick === owndata ? "2222gg" : isclick?.group_name} */}
           </p>
           <p className="text-gray-500 text-sm dark:text-gray-400"> </p>
           <p className="text-gray-500 text-sm font-semibold dark:text-gray-400">
             {" "}
-            {isclick?.intro}
+            {isclick?.group_name}
           </p>
         </div>
       </div>
@@ -113,17 +115,19 @@ const UserProfile = () => {
         </div>
       </div>
       <div className="mt-5">
-        <div onClick={()=>{
-          window.localStorage.removeItem("user")
-          window.location.replace("/");
-          }}>
-        <Button
-          color="white"
-          bgColor={currentColor}
-          text="로그아웃"
-          borderRadius="10px"
-          width="full"
-        />
+        <div
+          onClick={() => {
+            window.localStorage.removeItem("user");
+            window.location.replace("/");
+          }}
+        >
+          <Button
+            color="white"
+            bgColor={currentColor}
+            text="로그아웃"
+            borderRadius="10px"
+            width="full"
+          />
         </div>
       </div>
     </div>

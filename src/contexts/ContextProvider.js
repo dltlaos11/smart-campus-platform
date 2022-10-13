@@ -24,6 +24,7 @@ export const ContextProvider = ({ children }) => {
 
   let [surveydata, setSurveydata] = useState([]);
 
+  let [userName, setUserName] = useState("");
   const setMode = (e) => {
     setCurrentMode(e.target.value);
     localStorage.setItem("themeMode", e.target.value);
@@ -41,6 +42,8 @@ export const ContextProvider = ({ children }) => {
     // eslint-disable-next-line react/jsx-no-constructed-context-values
     <StateContext.Provider
       value={{
+        userName,
+        setUserName,
         noticedata,
         setNoticedata,
         isclick,

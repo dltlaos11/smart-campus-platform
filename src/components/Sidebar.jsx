@@ -9,6 +9,8 @@ import { useStateContext } from "../contexts/ContextProvider";
 
 const Sidebar = () => {
   const { activeMenu, setActiveMenu, screenSize } = useStateContext();
+
+  let { isclick, setIsclick } = useStateContext();
   // const activeMenu = true;
 
   const handleCloseSideBar = () => {
@@ -21,7 +23,7 @@ const Sidebar = () => {
     "flex items-center gap-5 pl-4 pt-3 pb-2.5 rounded-lg text-red text-md m-2";
 
   const normalLink =
-    "flex items-center gap-5 pl-4 pt-3 pb-2.5 rounded-lg text-md text-gray-700 dark:text-gray-200 dark:hover:text-black hover:bg-light-gray m-2";
+    "flex items-center gap-5 pl-4 pt-3 pb-2.5 rounded-lg text-md text-gray-700 dark:text-gray-200 dark:hover:text-black hover:bg-red-600 m-2";
 
   return (
     <div className="ml-3 h-screen md:overflow-hidden overflow-auto md:hover:overflow-auto pb-10">
@@ -34,7 +36,32 @@ const Sidebar = () => {
               className="items-center gap-3 ml-3 mt-4 flex text-xl font-extrabold tracking-tight dark:text-white text-slate-900"
             >
               {/* <SiShopware /> <span>스마트 캠퍼스</span> */}
-              <img src="https://raw.githubusercontent.com/dltlaos11/smart-campus-platform/master/src/img/logo.png"></img>
+              {/* <img src="https://raw.githubusercontent.com/dltlaos11/smart-campus-platform/master/src/img/logo.png"></img> */}
+              <div className="font-extrabold font-Mulish text-red-800 text-center text-[50px] mb-1 p-3">
+                <div className="text-5xl">
+                  <div className="text-black">SMART </div>CAMPUS
+                </div>
+                <div className="gap-5 items-center mt-6 border-color border-b-1 pb-6">
+                  <img
+                    src="https://raw.githubusercontent.com/dltlaos11/smart-campus-platform/master/src/data/dummy.png"
+                    alt="user-profile"
+                  />
+                  <div>
+                    <p className="font-semibold text-xl dark:text-gray-200">
+                      {isclick?.group_name}
+                      {/* 주용준{console.log(owndata[0]?.group_name, "22")} 옵셔널체이닝*/}
+                      {/* {isclick === owndata ? "2222gg" : isclick?.group_name} */}
+                    </p>
+                    <p className="text-gray-500 text-sm dark:text-gray-400">
+                      {" "}
+                    </p>
+                    <p className="text-gray-500 text-sm font-semibold dark:text-gray-400">
+                      {" "}
+                      {isclick?.intro}
+                    </p>
+                  </div>
+                </div>
+              </div>
             </Link>
             {/* <TooltipComponent content="Menu" position="BottomCenter">
               <button
@@ -48,10 +75,10 @@ const Sidebar = () => {
               </button>
             </TooltipComponent> "X" 아이콘*/}
           </div>
-          <div className="mt-10">
+          <div className="mt-1">
             {links.map((item) => (
               <div key={item.title}>
-                <p className="text-gray-400 m-3 mt-4 uppercase">{item.title}</p>
+                <p className="text-red-600 m-3 mt-4 uppercase">{item.title}</p>
                 {item.links.map((link) => (
                   <NavLink
                     to={`/${link.link}`}
@@ -62,7 +89,7 @@ const Sidebar = () => {
                     }
                   >
                     {link.icon}
-                    <span className="capitalize">{link.name}</span>
+                    <span className="capitalize ">{link.name}</span>
                   </NavLink>
                 ))}
               </div>

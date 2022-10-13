@@ -14,6 +14,7 @@ import {
   Line,
   SurveyWrite,
   SurveyDetail,
+  NotFound,
 } from "./pages";
 import "./App.css";
 
@@ -69,11 +70,20 @@ const App = () => {
                 {/* Pages */}
                 <Route path="/notice" element={<Notice />} />
                 <Route path="/noticeWrite" element={<NoticeWrite />} />
-                <Route path="/noticeDetail/:id" element={<NoticeDetail />} />
+                <Route
+                  path="/notice/noticeDetail/:id"
+                  element={<NoticeDetail />}
+                />
                 <Route path="/noticeEdit" element={<NoticeEdit />} />
                 <Route path="/survey" element={<Survey />} />
                 <Route path="/surveyWrite" element={<SurveyWrite />} />
-                <Route path="/surveyDetail/:id" element={<SurveyDetail />} />
+
+                {/* <Route path="/surveyDetail/:id" element={<SurveyDetail />} /> */}
+                <Route
+                  path="/survey/surveyDetail/:id"
+                  element={<SurveyDetail />}
+                />
+
                 {/* <Route path="/chatbot" element={<Chatbot />} /> */}
                 <Route path="/admin" element={<Admin />} />
                 {/* <Route path="/map" element={<Map />} /> */}
@@ -81,6 +91,7 @@ const App = () => {
                 {/* Charts */}
 
                 <Route path="/color-mapping" element={<Line />} />
+                <Route path="*" element={<NotFound />}></Route>
 
                 {/* Dashboard */}
                 {/* <Route path="/" element="Information" />

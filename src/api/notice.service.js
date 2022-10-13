@@ -30,13 +30,13 @@ const noticeEdit = (notice_id, group_id, title, content) => {
     .post(
       "api/api/notice/edit",
       {
-        headers: authHeader(),
-      },
-      {
         notice_id,
         group_id,
         title,
         content,
+      },
+      {
+        headers: authHeader(),
       }
     )
     .then((res) => {

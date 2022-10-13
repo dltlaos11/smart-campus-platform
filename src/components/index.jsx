@@ -14,3 +14,4 @@ export { default as Pie } from "./Charts/Pie";
 export { default as ChartsHeader } from "./ChartsHeader";
 export { default as Header } from "./Header";
 export { default as AdminLevel } from "./AdminLevel";
+export { default as ViewerContent } from "./ViewerContent";

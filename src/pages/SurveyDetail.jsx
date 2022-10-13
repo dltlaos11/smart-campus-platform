@@ -1,9 +1,43 @@
-import React from "react";
-import { Link, useParams } from "react-router-dom";
+import React, { useEffect } from "react";
+import { Link, useParams, useNavigate } from "react-router-dom";
+
+import { useStateContext } from "../contexts/ContextProvider";
+import { useStateSurveyContext } from "../contexts/SurveyProvicer";
+
+import authHeader from "../api/auth-header";
+import api from "../api/axios";
 
 const SurveyDetail = () => {
   let { id } = useParams();
+  let { surveyTitle, setSurveyTitle } = useStateSurveyContext();
+  let { surveyContent, setSurveyContent } = useStateSurveyContext();
+
+  let { surveyDetailId, setSurveyDetailId } = useStateSurveyContext();
+  let { isclick, setIsclick } = useStateContext();
+
+  const navigate = useNavigate();
   console.log(id);
+
+  const getDetailSurvey = () => {
+    // navigate("/");
+    console.log(isclick?.group_id);
+    return api.get(`/api/api/survey/detail?survey_id=${id}`, {
+      headers: authHeader(),
+    });
+  };
+
+  useEffect(() => {
+    const getSurveyDetail = async () => {
+      await getDetailSurvey().then(
+        (res) => console.log(res.data.response),
+        (err) => console.log(err)
+      );
+    };
+    getSurveyDetail();
+    // navigate(`survey/surveyDetail/${id}`); // 😨
+    // <Link to={`/surveyDetail/${id}`}></Link>;
+    setSurveyDetailId(id);
+  }, []);
 
   return (
     <div>

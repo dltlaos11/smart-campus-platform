@@ -253,15 +253,41 @@ const Admin = () => {
         title="그룹 승인하시겠습니까?"
         centered
         visible={visible}
-        onOk={() => {
-          setVisible(false);
-          console.log(clickCell, "@@@@@");
-          handleAdminGroupAccept();
-        }} // 📗
-        onCancel={() => setVisible(false)}
+        // onOk={() => {
+        //   setVisible(false);
+        //   console.log(clickCell, "@@@@@");
+        //   handleAdminGroupAccept();
+        // }} // 📗
+        // onCancel={() => setVisible(false)}
+        closable={false}
+        footer={null}
         width={700}
       >
         <p>{userId}에게 해당 그룹을 승인하시려면 OK를 클릭해주세요🙂</p>
+
+        <div className=" absolute bottom-[10px] right-[10px]">
+          <Button
+            style={{ background: "red" }}
+            type="ghost"
+            onClick={() => {
+              setVisible(false);
+              console.log(clickCell, "@@@@@");
+              handleAdminGroupAccept();
+            }}
+          >
+            네
+          </Button>{" "}
+          &nbsp;
+          <Button
+            style={{ background: "red" }}
+            type="ghost"
+            onClick={() => {
+              setVisible(false);
+            }}
+          >
+            아니요
+          </Button>
+        </div>
       </Modal>
     </>
   );

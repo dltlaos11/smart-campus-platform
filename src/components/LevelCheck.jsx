@@ -9,9 +9,9 @@ const LevelCheck = () => {
     <>
       {user.response.level !== 0 ? (
         // <App />
-        // (user.response.level === 1 ?  <GroupList />:<App />) 레벨 업데이트 한번 되고 
         <GroupList />
       ) : (
+        // (user.response.level === 1 ?  <GroupList />:<App />) 레벨 업데이트 한번 되고
         // <GroupList />
         <App />
       )}

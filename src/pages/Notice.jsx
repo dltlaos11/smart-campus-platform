@@ -9,6 +9,7 @@ import { useStateContext } from "../contexts/ContextProvider";
 
 import NoticeService from "../api/notice.service";
 
+import { useStateNoticeContext } from "../contexts/NoticeProvider";
 import authHeader from "../api/auth-header";
 import api from "../api/axios";
 
@@ -20,6 +21,7 @@ const Notice = () => {
   let { isclick, setIsclick } = useStateContext();
   let { noticedata, setNoticedata } = useStateContext();
 
+  let { noticeDetailId, setNoticeDetailId } = useStateNoticeContext();
   // const data = [
   //   {
   //     key: 1,
@@ -220,7 +222,8 @@ const Notice = () => {
           onRow={(record, recordIndex) => ({
             // onClick: event => { console.log(event.target, event.target.className, record, recordIndex) }
             onClick: (event) => {
-              navigate(`/NoticeDetail/${record.key}`);
+              navigate(`/notice/noticeDetail/${record.key}`);
+              setNoticeDetailId(record.key);
               console.log(record.key);
             },
           })}

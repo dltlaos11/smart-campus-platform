@@ -252,7 +252,7 @@ const Survey = () => {
           onRow={(record, recordIndex) => ({
             // onClick: event => { console.log(event.target, event.target.className, record, recordIndex) }
             onClick: (event) => {
-              navigate(`/surveyDetail/${record.key}`);
+              navigate(`/survey/surveyDetail/${record.key}`);
               console.log(record.key);
             },
           })}

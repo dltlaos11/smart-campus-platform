@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useRef } from "react";
 import { useStateContext } from "../contexts/ContextProvider";
 import { InboxOutlined, UploadOutlined } from "@ant-design/icons";
 import {
@@ -14,6 +14,7 @@ import {
   Slider,
   Switch,
   Upload,
+  Input,
 } from "antd";
 import { CKEditor } from "@ckeditor/ckeditor5-react";
 import ClassicEditor from "@ckeditor/ckeditor5-build-classic";
@@ -22,7 +23,15 @@ import noticeService from "../api/notice.service";
 import { useNavigate } from "react-router-dom";
 import { useStateNoticeContext } from "../contexts/NoticeProvider";
 
+import { Editor } from "@toast-ui/react-editor";
+import "@toast-ui/editor/dist/toastui-editor.css";
+import colorSyntax from "@toast-ui/editor-plugin-color-syntax";
+import "tui-color-picker/dist/tui-color-picker.css";
+import "@toast-ui/editor-plugin-color-syntax/dist/toastui-editor-plugin-color-syntax.css";
+import "@toast-ui/editor/dist/i18n/ko-kr";
+import pushService from "../api/push.service";
 const NoticeEdit = () => {
+  const { TextArea } = Input;
   let { isclick, setIsclick } = useStateContext();
   let { noticeTitle, setNoticeTitle } = useStateNoticeContext();
   let { noticeContent, setNoticeContent } = useStateNoticeContext();
@@ -30,6 +39,9 @@ const NoticeEdit = () => {
   let { noticedata, setNoticedata } = useStateContext();
 
   let { noticeDetailId, setNoticeDetailId } = useStateNoticeContext();
+
+  const [pushTitle, setPushTitle] = useState("");
+  const [pushContent, setPushContent] = useState("");
 
   //   const [title, setTitle] = useState(s);
   const [content, setContent] = useState("");
@@ -67,7 +79,31 @@ const NoticeEdit = () => {
     }
   };
 
+  const handlePushPost = async (e) => {
+    try {
+      await pushService
+        .pushPost(isclick?.group_id, pushTitle, pushContent)
+        .then(
+          (res) => {
+            console.log(res);
+          },
+          (err) => {
+            console.log(err);
+          }
+        );
+    } catch (err) {
+      console.log(err);
+    }
+  };
+
   const navigate = useNavigate();
+
+  const editorRef = useRef();
+
+  const onChange = (e) => {
+    console.log("Change:", e.target.value);
+    setPushContent(e.target.value);
+  };
 
   return (
     <div className="min-h-screen md:px-10 pt-40">
@@ -92,7 +128,7 @@ const NoticeEdit = () => {
         </div>
         <div className="text-xl font-bold mb-2">내용</div>
         <div className=" h-good">
-          <CKEditor
+          {/* <CKEditor
             editor={ClassicEditor}
             data={noticeContent}
             onReady={(editor) => {
@@ -114,12 +150,31 @@ const NoticeEdit = () => {
             onFocus={(event, editor) => {
               console.log("Focus.", editor);
             }}
+          /> */}
+          <Editor
+            initialValue={noticeContent}
+            previewStyle="vertical"
+            height="600px"
+            initialEditType="wysiwyg"
+            useCommandShortcut={false}
+            hideModeSwitch={true}
+            plugins={[colorSyntax]}
+            language="ko-KR"
+            onChange={() => {
+              const data = editorRef.current.getInstance().getHTML();
+              console.log(data);
+              setContent({
+                ...content,
+                content: data,
+              });
+            }}
+            ref={editorRef}
           />
         </div>
         {/* <div dangerouslySetInnerHTML={ {__html:codes}}></div> */}
         <div className="">
           {" "}
-          <Upload.Dragger
+          {/* <Upload.Dragger
             action={"http://localhost:3000/noticeEdit/"}
             multiple
             listType="picture"
@@ -132,7 +187,7 @@ const NoticeEdit = () => {
             Drag files here OR
             <br />
             <Button>Click Upload</Button>
-          </Upload.Dragger>
+          </Upload.Dragger> */}
         </div>
         <br />
         <h1 className="text-2xl font-bold">알림 작성</h1>
@@ -145,7 +200,7 @@ const NoticeEdit = () => {
               <input
                 className="w-full outline-none h-10 ml-3"
                 onChange={(e) => {
-                  //   setTitle(e.currentTarget.value);
+                  setPushTitle(e.currentTarget.value);
                 }}
               />
             </div>
@@ -153,36 +208,29 @@ const NoticeEdit = () => {
         </div>
         <div className="text-xl font-bold mb-2">내용</div>
         <div className=" h-good">
-          <CKEditor
-            editor={ClassicEditor}
-            data="<p>Hello from CKEditor 5!</p>"
-            onReady={(editor) => {
-              // You can store the "editor" and use when it is needed.
-              console.log("Editor is ready to use!", editor);
+          <TextArea
+            showCount
+            maxLength={100}
+            style={{
+              height: 120,
             }}
-            onChange={(event, editor) => {
-              const data = editor.getData();
-              // console.log({ event, editor, data });
-              // setContent({
-              //   ...content,
-              //   content: data,
-              // });
-            }}
-            onBlur={(event, editor) => {
-              console.log("Blur.", editor);
-            }}
-            onFocus={(event, editor) => {
-              console.log("Focus.", editor);
-            }}
+            onChange={onChange}
           />
         </div>
         <br />
         <div className=" my-2 flex justify-end">
           <button
-            className="w-28 p-2 text-white bg-red-600 shadow-lg rounded"
+            className="w-28 p-2 text-white bg-red-600 shadow-lg rounded-2xl"
             onClick={() => {
+              // console.log(
+              //   noticeDetailId,
+              //   isclick?.group_id,
+              //   noticeTitle,
+              //   content.content
+              // );
               handlePost();
               navigate("/");
+              handlePushPost();
             }}
           >
             등록

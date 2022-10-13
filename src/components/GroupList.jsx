@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from "react";
 import { Header } from "../components";
 import { Select, Table, Avatar, List } from "antd";
-import { Modal } from "antd";
+import { Modal, Button } from "antd";
 import { useStateContext } from "../contexts/ContextProvider";
 import groupService from "../api/group.service";
 
@@ -126,19 +126,42 @@ const GroupList = () => {
         title="선택하신 부서에 대한 요청이 성공되었습니다 !"
         centered
         visible={visible}
-        onOk={() => setVisible(false)}
-        onCancel={() => setVisible(false)}
+        // onOk={() => setVisible(false)}
+        // onCancel={() => setVisible(false)}
+        closable={false}
+        footer={null}
         width={700}
       >
-        <p>선택하신 부서에 대한 신청이 요청되었습니다.</p>
-        <p>관리자 승인을 받을 떄 까지 기다려주세요🙂</p>
+        <p>선택하신 부서에 대한 신청을 요청하시려면 "네" 버튼을 클릭해주세요</p>
+        <p>승인 요청하셨다면 관리자 승인을 받을 떄 까지 기다려주세요🙂</p>
+        <div className=" absolute bottom-[10px] right-[10px]">
+          <Button
+            style={{ background: "red" }}
+            type="ghost"
+            onClick={() => {
+              setVisible(false);
+              handleGroupCall();
+            }}
+          >
+            네
+          </Button>{" "}
+          &nbsp;
+          <Button
+            style={{ background: "red" }}
+            type="ghost"
+            onClick={() => {
+              setVisible(false);
+            }}
+          >
+            아니요
+          </Button>
+        </div>
       </Modal>
       <div className="h-24 flex justify-end w-full">
         <button
           onClick={() => {
             // navigate("/NoticeWrite");
             setVisible(true);
-            handleGroupCall();
           }}
           className="bg-red-600 shadow-lg mt-8 text-center rounded-2xl text-white p-3 w-32 md:ml-[1600px]"
         >

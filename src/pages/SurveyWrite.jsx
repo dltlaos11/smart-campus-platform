@@ -90,7 +90,7 @@ const SurveyWrite = () => {
           {story}
           <div className=" my-2 flex justify-end">
             <button
-              className="w-28 p-2 text-white bg-red-600 shadow-lg rounded"
+              className="w-28 p-2 text-white bg-red-600 shadow-lg rounded-2xl"
               onClick={() => {
                 addStory();
                 console.log(story);

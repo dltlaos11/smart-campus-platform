@@ -12,6 +12,8 @@ const Login = () => {
   const [password, setPw] = useState("");
 
   const { isLoggedIn, setIsLoggedIn } = useStateContext();
+
+  let { userName, setUserName } = useStateContext();
   const [visible, setVisible] = useState(false);
   const [error, setError] = useState("");
 
@@ -19,15 +21,14 @@ const Login = () => {
   // console.log(user.response.level)
 
   useEffect(() => {
-  let user = JSON.parse(localStorage.getItem("user"));
-  if (user !== null) {
-    setIsLoggedIn(true);
-  }
-  // else if (user === null){
+    let user = JSON.parse(localStorage.getItem("user"));
+    if (user !== null) {
+      setIsLoggedIn(true);
+    }
+    // else if (user === null){
     // window.location.replace("/");
-  // }
-  
-  },[window.localStorage.length])
+    // }
+  }, [window.localStorage.length]);
   const handleLogin = async () => {
     try {
       await AuthService.login(user_id, password).then(
@@ -35,6 +36,7 @@ const Login = () => {
           // window.location.reload();
           if (res && res.response.jwt_token) {
             setIsLoggedIn(true);
+            setUserName(res.response.name);
           } else {
             setIsLoggedIn(false);
           }
@@ -69,8 +71,10 @@ const Login = () => {
                   <div className="w-1/2 px-4">
                     <div className="relative flex flex-col min-w-0 break-words w-full mb-6 shadow-lg rounded-lg bg-white border-0">
                       <div className="rounded-t mb-0 px-6 py-6">
-                        <div className="font-poppins text-gray-600 body-font font-medium  text-center text-[50px] mb-3">
-                          Smart Campus
+                        <div className="font-extrabold font-Mulish text-red-800 text-center text-[50px] mb-3">
+                          <p className="text-7xl">
+                            <div className="text-black">SMART </div>CAMPUS
+                          </p>
                           {/* <img
                         className="m-auto"
                         src="../img/v2hoseo-icon.png"
@@ -129,7 +133,7 @@ const Login = () => {
                       <div className="w-1/3 ">
                         <a
                           target="_blank"
-                          href="https://portal.hoseo.edu/huis/FindIdPage.do"
+                          href="https://sso.hoseo.edu/huis/FindIdPage.do"
                           rel="noreferrer"
                           className="text-slate-700"
                         >
@@ -165,7 +169,7 @@ const Login = () => {
                       <div className="w-1/3 text-right">
                         <a
                           target="_blank"
-                          href="https://portal.hoseo.edu/huis/InitPwdPage.do"
+                          href="https://sso.hoseo.edu/huis/InitPwdPage.do"
                           rel="noreferrer"
                           className="text-slate-700"
                         >

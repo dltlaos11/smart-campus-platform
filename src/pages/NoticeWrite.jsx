@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useRef } from "react";
 import { useStateContext } from "../contexts/ContextProvider";
 import { InboxOutlined, UploadOutlined } from "@ant-design/icons";
 import {
@@ -24,6 +24,22 @@ import pushService from "../api/push.service";
 
 import { useNavigate } from "react-router-dom";
 
+import {
+  HtmlEditor,
+  Image,
+  Inject,
+  Link,
+  QuickToolbar,
+  RichTextEditorComponent,
+  Toolbar,
+} from "@syncfusion/ej2-react-richtexteditor";
+
+import { Editor } from "@toast-ui/react-editor";
+import "@toast-ui/editor/dist/toastui-editor.css";
+import colorSyntax from "@toast-ui/editor-plugin-color-syntax";
+import "tui-color-picker/dist/tui-color-picker.css";
+import "@toast-ui/editor-plugin-color-syntax/dist/toastui-editor-plugin-color-syntax.css";
+import "@toast-ui/editor/dist/i18n/ko-kr";
 const NoticeWrite = () => {
   const [title, setTitle] = useState("");
   const [content, setContent] = useState("");
@@ -41,16 +57,14 @@ const NoticeWrite = () => {
 
   const handleNoticePost = async (e) => {
     try {
-      await noticeService
-        .noticePost(isclick?.group_id, title, content.content)
-        .then(
-          (res) => {
-            console.log(res);
-          },
-          (err) => {
-            console.log(err);
-          }
-        );
+      await noticeService.noticePost(isclick?.group_id, title, content).then(
+        (res) => {
+          console.log(res);
+        },
+        (err) => {
+          console.log(err);
+        }
+      );
     } catch (err) {
       console.log(err);
     }
@@ -80,6 +94,14 @@ const NoticeWrite = () => {
 
   const navigate = useNavigate();
 
+  const editorRef = useRef();
+
+  const onChangeEditor = () => {
+    const data = editorRef.current.getInstance().getHTML();
+    console.log(data);
+    setContent(data);
+  };
+
   return (
     <div className="min-h-screen md:px-10 pt-40">
       <div className=" bg-white rounded px-6 py-10 w-full mx-auto mb-10">
@@ -101,7 +123,7 @@ const NoticeWrite = () => {
         </div>
         <div className="text-xl font-bold mb-2">내용</div>
         <div className=" h-good">
-          <CKEditor
+          {/* <CKEditor
             editor={ClassicEditor}
             data=""
             onReady={(editor) => {
@@ -123,8 +145,25 @@ const NoticeWrite = () => {
             onFocus={(event, editor) => {
               console.log("Focus.", editor);
             }}
-          />
+          /> */}
         </div>
+
+        {/* <RichTextEditorComponent>
+          <Inject services={[HtmlEditor, Toolbar, Image, Link, QuickToolbar]} />
+        </RichTextEditorComponent> */}
+
+        <Editor
+          previewStyle="vertical"
+          height="600px"
+          initialEditType="wysiwyg"
+          useCommandShortcut={false}
+          hideModeSwitch={true}
+          plugins={[colorSyntax]}
+          language="ko-KR"
+          onChange={onChangeEditor}
+          ref={editorRef}
+        />
+
         {/* <div dangerouslySetInnerHTML={{ __html: content }}></div> */}
         <div className="">
           {" "}
@@ -205,7 +244,7 @@ const NoticeWrite = () => {
         <br />
         <div className=" my-2 flex justify-end">
           <button
-            className="w-28 p-2 text-white bg-red-600 shadow-lg rounded"
+            className="w-28 p-2 text-white bg-red-600 shadow-lg rounded-2xl"
             onClick={() => {
               handleNoticePost();
               handlePushPost();
