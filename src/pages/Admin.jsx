@@ -1,12 +1,13 @@
 import React, { useRef, useState, useEffect } from "react";
 import { Header } from "../components";
-import { Button, Input, Space, Table, Modal } from "antd";
+import { Button, Input, Space, Table, Modal, notification } from "antd";
 import { SearchOutlined } from "@ant-design/icons";
 import Highlighter from "react-highlight-words";
 import { Link, useNavigate } from "react-router-dom";
 import NoticeDetail from "./NoticeDetail";
 import AdminLevel from "../components/AdminLevel";
 import groupService from "../api/group.service";
+import authService from "../api/auth.service";
 
 const Admin = () => {
   const [searchText, setSearchText] = useState("");
@@ -20,6 +21,16 @@ const Admin = () => {
   let [clickCell, setClickCell] = useState("");
   let [userId, setUserId] = useState("");
   console.log(user.response.level, "LEVELCHECK");
+
+  const openNotification = () => {
+    notification.open({
+      message: "승인이 성공되었습니다 !",
+      description: "해당 관리자에게 요청된 승인을 허가하였습니다🙂",
+      onClick: () => {
+        console.log("Notification Clicked!");
+      },
+    });
+  };
 
   useEffect(() => {
     const getGroupCall = async () => {
@@ -273,6 +284,9 @@ const Admin = () => {
               setVisible(false);
               console.log(clickCell, "@@@@@");
               handleAdminGroupAccept();
+              authService.updateLevel(userId, 1);
+
+              openNotification();
             }}
           >
             네

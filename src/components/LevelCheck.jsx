@@ -7,13 +7,17 @@ const LevelCheck = () => {
   console.log("레벨 체크");
   return (
     <>
-      {user.response.level !== 0 ? (
+      {user.response.level === 0 ? (
         // <App />
-        <GroupList />
-      ) : (
-        // (user.response.level === 1 ?  <GroupList />:<App />) 레벨 업데이트 한번 되고
         // <GroupList />
         <App />
+      ) : // (
+      //   <GroupList />
+      // )
+      user.response.level === 1 ? (
+        <App />
+      ) : (
+        <GroupList />
       )}
     </>
   );

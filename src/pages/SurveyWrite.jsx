@@ -59,8 +59,8 @@ const SurveyWrite = () => {
 
   return (
     <>
-      <div className="min-h-screen md:px-[180px] pt-20">
-        <div className=" bg-white rounded px-6 py-10 w-full mx-auto mb-10">
+      <div className="min-h-screen md:px-10 pt-[50px]">
+        <div className=" bg-white rounded-3xl px-6 py-10 w-full mx-auto mb-10">
           <h1 className="text-2xl font-bold">설문 작성</h1>
 
           <div className="h-24 flex justify-end w-full">

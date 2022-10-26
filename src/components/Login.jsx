@@ -43,7 +43,7 @@ const Login = () => {
           console.log(res);
         },
         (err) => {
-          console.log(err.response.data.error.message);
+          // console.log(err.response.data.error.message);
           setError(err.response.data.error.message);
           setVisible(true);
         }

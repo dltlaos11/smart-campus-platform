@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from "react";
 import { Header } from "../components";
 import { Select, Table, Avatar, List } from "antd";
-import { Modal, Button } from "antd";
+import { Modal, Button, notification } from "antd";
 import { useStateContext } from "../contexts/ContextProvider";
 import groupService from "../api/group.service";
 
@@ -11,6 +11,19 @@ const GroupList = () => {
 
   const [visible, setVisible] = useState(false);
   const [selectGroup, setSelectGroup] = useState([]);
+
+  const openNotification = () => {
+    notification.open({
+      message: "부서에 대한 요청이 성공되었습니다 !",
+      description:
+        "처음 화면으로 이동합니다. 관리자 승인을 받을 떄 까지 기다려주세요🙂",
+      onClick: () => {
+        console.log("Notification Clicked!");
+      },
+    });
+  };
+
+  let user = JSON.parse(localStorage.getItem("user"));
   useEffect(() => {
     const GroupAdmin = async () => {
       await groupService
@@ -123,7 +136,7 @@ const GroupList = () => {
       </Select>
 
       <Modal
-        title="선택하신 부서에 대한 요청이 성공되었습니다 !"
+        title="선택하신 부서에 대한 요청을 보내시겠어요 ?"
         centered
         visible={visible}
         // onOk={() => setVisible(false)}
@@ -133,7 +146,6 @@ const GroupList = () => {
         width={700}
       >
         <p>선택하신 부서에 대한 신청을 요청하시려면 "네" 버튼을 클릭해주세요</p>
-        <p>승인 요청하셨다면 관리자 승인을 받을 떄 까지 기다려주세요🙂</p>
         <div className=" absolute bottom-[10px] right-[10px]">
           <Button
             style={{ background: "red" }}
@@ -141,6 +153,13 @@ const GroupList = () => {
             onClick={() => {
               setVisible(false);
               handleGroupCall();
+              openNotification();
+
+              setTimeout(function () {
+                localStorage.removeItem("user");
+                window.location.replace("/");
+              }, 6000); //Time before execution
+              console.log("hi");
             }}
           >
             네
